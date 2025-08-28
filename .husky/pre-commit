@@ -1,0 +1,6 @@
+echo '🔎 Running linting or syntax errors...'
+
+npm run check:fix || 
+(echo 'Linting or syntax errors detected. Please fix them before commiting.' && exit 1)
+
+echo '🥳 Review code is done!'
