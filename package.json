@@ -12,8 +12,17 @@
     "check:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.13",
+    "@types/react-router-dom": "^5.3.3",
+    "datatables.net-dt": "^2.3.4",
+    "jquery": "^3.7.1",
+    "lucide-react": "^0.542.0",
+    "primeicons": "^7.0.0",
+    "primereact": "^10.9.7",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.8.2",
+    "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
