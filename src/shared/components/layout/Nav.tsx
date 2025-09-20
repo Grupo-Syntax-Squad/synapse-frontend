@@ -14,7 +14,7 @@ const Nav: FC = () => {
 
   return (
     <>
-    <p className="text-2xl font-bold underline decoration-violet-900 p-5">Welcome back!</p>
+    <p className="text-2xl font-bold underline decoration-violet-900 p-5">Bem Vindo(a)!</p>
       <nav className="text-black px-6 py-3">
         <ul className="flex gap-6">
           {links.map((link) => (

@@ -16,7 +16,7 @@ const users = [
   { id: 2, name: 'Maria Santos', email: 'maria@email.com', status: 'Ativo', receiveReports: false },
   { id: 3, name: 'Pedro Costa', email: 'pedro@email.com', status: 'Inativo', receiveReports: true },
   { id: 4, name: 'Ana Oliveira', email: 'ana@email.com', status: 'Ativo', receiveReports: true },
-  { id: 5, name: 'Carlos Mendes', email: 'carlos@email.com', status: 'Pendente', receiveReports: false },
+  { id: 5, name: 'Carlos Mendes', email: 'carlos@email.com', status: 'Inativo', receiveReports: false },
   { id: 6, name: 'Juliana Alves', email: 'juliana@email.com', status: 'Ativo', receiveReports: true },
   { id: 7, name: 'Ricardo Pereira', email: 'ricardo@email.com', status: 'Inativo', receiveReports: false },
   { id: 8, name: 'Fernanda Lima', email: 'fernanda@email.com', status: 'Ativo', receiveReports: true },
@@ -59,15 +59,13 @@ const UsersPage = () => {
     const bgColor =
       rowData.status === "Ativo"
         ? "bg-green-500 text-white"
-        : rowData.status === "Inativo"
-        ? "bg-red-500 text-white"
-        : "bg-yellow-400 text-black";
+        : "bg-red-500 text-white";
     return <span className={`px-3 py-1 rounded-md text-lg ${bgColor}`}>{rowData.status}</span>;
   };
 
   const receiveReportsBodyTemplate = (rowData: any) => {
     const bgColor = rowData.receiveReports ? "bg-green-500" : "bg-red-500";
-    const text = rowData.receiveReports ? "Yes" : "No";
+    const text = rowData.receiveReports ? "Sim" : "Não";
     return <span className={`px-3 py-1 rounded-md text-white text-lg ${bgColor}`}>{text}</span>;
   };
 
@@ -107,7 +105,7 @@ const actionBodyTemplate = (rowData: any) => (
           >
             <Column field="name" header="Nome" sortable filter filterPlaceholder="Buscar por nome" style={{ minWidth: '12rem' }} />
             <Column field="email" header="E-mail" sortable filter filterPlaceholder="Buscar por e-mail" style={{ minWidth: '16rem' }} />
-            <Column field="receiveReports" header="Receive Reports" body={receiveReportsBodyTemplate} style={{ minWidth: '8rem' }} />
+            <Column field="receiveReports" header="Recebe e-mails?" body={receiveReportsBodyTemplate} style={{ minWidth: '8rem' }} />
             <Column field="status" header="Status" sortable filter filterPlaceholder="Buscar por status" body={statusBodyTemplate} style={{ minWidth: '8rem' }} />
             <Column header="Ações" body={actionBodyTemplate} style={{ minWidth: '10rem' }} />
           </DataTable>

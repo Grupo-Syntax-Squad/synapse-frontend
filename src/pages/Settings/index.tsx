@@ -37,8 +37,8 @@ const Settings: FC = () => {
       />
 
       <div className="flex gap-4">
-        <Button label="Save Changes" className="p-button-success" onClick={handleSave} />
-        <Button label="Back" className="p-button-secondary" onClick={handleBack} />
+        <Button label="Salvar mudanças" className="p-button-success" onClick={handleSave} />
+        <Button label="Voltar" className="p-button-secondary" onClick={handleBack} />
       </div>
     </div>
     </>

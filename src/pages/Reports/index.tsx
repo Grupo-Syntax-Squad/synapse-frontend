@@ -8,9 +8,9 @@ import Nav from "@/shared/components/layout/Nav";
 import Header from "@/shared/components/layout/Header";
 
 const reports = [
-  { id: 1, name: "Relatório Financeiro", date: "2025-09-01", receiveReports: true },
-  { id: 2, name: "Relatório de Vendas", date: "2025-09-05", receiveReports: false },
-  { id: 3, name: "Relatório de Estoque", date: "2025-09-10", receiveReports: true },
+  { id: 1, name: "Relatório Financeiro", date: "2025-09-01" },
+  { id: 2, name: "Relatório de Vendas", date: "2025-09-05"},
+  { id: 3, name: "Relatório de Estoque", date: "2025-09-10" },
 ];
 
 const ReportsPage = () => {
@@ -86,6 +86,14 @@ const ReportsPage = () => {
           field="date"
           header="Data"
           sortable
+          body={(rowData) => {
+            const date = new Date(rowData.date);
+            return date.toLocaleDateString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            });
+          }}
           filter
           filterFunction={() => {
             return (rowData: any) =>
@@ -94,19 +102,6 @@ const ReportsPage = () => {
                 dateTo: filters.dateTo.value,
               });
           }}
-        />
-        <Column
-          field="receiveReports"
-          header="Receive Reports"
-          body={(rowData) => (
-            <span
-              className={`px-3 py-1 rounded-md text-white text-lg ${
-                rowData.receiveReports ? "bg-green-500" : "bg-red-500"
-              }`}
-            >
-              {rowData.receiveReports ? "Yes" : "No"}
-            </span>
-          )}
         />
         <Column
           header="Ações"

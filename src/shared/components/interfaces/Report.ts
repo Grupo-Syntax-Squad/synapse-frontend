@@ -1,6 +1,5 @@
 export interface Report {
   id: number;
   name: string;
-  date: string;
-  preview: number;
+  created_at: string;
 }

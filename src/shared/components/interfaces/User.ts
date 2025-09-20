@@ -1,8 +1,11 @@
-export interface User {
+export default interface User {
   id: number;
-  name: string;
+  username: string;
   email: string;
-  role: string;
-  status: "Ativo" | "Inativo" | "Pendente";
-  receiveReports: boolean;
+  password: string;
+  is_admin: boolean;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  receive_email: boolean;
 }
