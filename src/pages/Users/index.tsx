@@ -8,6 +8,7 @@ import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
 import { Button } from "primereact/button";
 import type { User } from "@/shared/components/interfaces/User";
+import { useNavigate } from "react-router-dom";
 
 
 const users = [
@@ -22,6 +23,7 @@ const users = [
 ];
 
 const UsersPage = () => {
+   const navigate = useNavigate();
   const [globalFilterValue, setGlobalFilterValue] = useState('');
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: 'contains' },
@@ -69,12 +71,12 @@ const UsersPage = () => {
     return <span className={`px-3 py-1 rounded-md text-white text-lg ${bgColor}`}>{text}</span>;
   };
 
-  const actionBodyTemplate = (rowData: any) => (
+const actionBodyTemplate = (rowData: any) => (
     <div className="flex gap-2">
       <Button
         icon="pi pi-pencil"
         className="p-button-rounded p-button-text p-button-info"
-        onClick={() => alert(`Editando usuário: ${rowData.name}`)}
+        onClick={() => navigate(`/users/${rowData.id}/edit`)}
       />
       <Button
         icon="pi pi-trash"

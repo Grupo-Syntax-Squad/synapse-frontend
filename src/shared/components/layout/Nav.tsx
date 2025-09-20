@@ -7,6 +7,7 @@ const Nav: FC = () => {
   const links = [
     { name: "Relatórios", path: "/reports" },
     { name: "Usuários", path: "/users" },
+    // { name: "Chatbot", path: "/chatbot" },
     { name: "Configurações", path: "/settings" }
   ];
 

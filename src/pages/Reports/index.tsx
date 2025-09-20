@@ -113,8 +113,6 @@ const ReportsPage = () => {
           body={(rowData) => (
             <div className="flex gap-2">
               <Button icon="pi pi-eye" className="p-button-rounded p-button-text p-button-info" />
-              <Button icon="pi pi-pencil" className="p-button-rounded p-button-text p-button-warning" />
-              <Button icon="pi pi-trash" className="p-button-rounded p-button-text p-button-danger" />
             </div>
           )}
         />
