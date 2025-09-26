@@ -1,0 +1,6 @@
+export enum LoginPage {
+  LOGIN = 1,
+  REGISTER,
+  RESET_PASSWORD,
+  FORCE_PASSWORD_CHANGE,
+}

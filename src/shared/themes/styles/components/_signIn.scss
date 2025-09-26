@@ -1,0 +1,19 @@
+.bg-welcome {
+  background: linear-gradient(to bottom right, #6d28d9, #8b5cf6);
+  min-height: 250px;
+}
+
+.decorative-circle {
+  bottom: 5%;
+  left: 10%;
+  width: 120px;
+  height: 120px;
+  background-color: #7c3aed;
+  border-radius: 50%;
+}
+
+@media (min-width: 992px) {
+  .bg-welcome {
+    min-height: auto;
+  }
+}

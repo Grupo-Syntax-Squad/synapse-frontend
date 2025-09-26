@@ -1,0 +1,66 @@
+.p-organizationchart {
+    .p-organizationchart-node-content {
+        &.p-organizationchart-selectable-node:not(.p-highlight):hover {
+            background: $inputListItemHoverBg;
+            color: $inputListItemTextHoverColor;
+        }
+
+        &.p-highlight {
+            background: $highlightBg;
+            color: $highlightTextColor;
+
+            .p-node-toggler {
+                i {
+                    color: darken($highlightBg, 25%);
+                }
+            }
+        }
+    }
+    .p-organizationchart-lines:not([style*="visibility: inherit"]) {
+        .p-organizationchart-line-down {
+            background: transparent !important;
+        }
+
+        .p-organizationchart-line-top {
+            border-top: 0 !important;
+            border-color: transparent !important;
+        }
+
+        .p-organizationchart-line-left {
+            border-right: 0 !important;
+            border-color: transparent !important;
+        }
+    }
+    .p-organizationchart-lines:not([style*="visibility: hidden"]) {
+        .p-organizationchart-line-down {
+            background: $organizationChartConnectorColor !important;
+        }
+
+        .p-organizationchart-line-top {
+            border-top: $panelContentBorder !important;
+            border-color: $organizationChartConnectorColor !important;
+        }
+
+        .p-organizationchart-line-left {
+            border-right: $panelContentBorder !important;
+            border-color: $organizationChartConnectorColor !important;
+        }
+    }
+
+    .p-organizationchart-node-content {
+        border: $panelContentBorder !important;
+        background: $panelContentBg;
+        color: $panelContentTextColor;
+        padding: $panelContentPadding;
+    }
+
+    .p-organizationchart-node-content .p-node-toggler {
+        background: inherit;
+        color: inherit;
+        border-radius: 50%;
+
+        &:focus-visible {
+            @include focused();
+        }
+    }
+}
