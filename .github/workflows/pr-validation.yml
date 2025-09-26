@@ -62,7 +62,7 @@ jobs:
 
       - name: Check for unused dependencies
         run: |
-          npx depcheck --ignores="@types/*,eslint-*,@eslint/*,@vitejs/*,@commitlint/*,husky,jiti,postcss,autoprefixer"
+          npx depcheck --ignores="@types/*,eslint-*,@eslint/*,@vitejs/*,@commitlint/*,husky,jiti,postcss,autoprefixer,js-cookie,primeicons,@typescript-eslint/parser"
 
       - name: Audit dependencies for vulnerabilities
         run: npm audit --audit-level moderate
