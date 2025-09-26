@@ -1,0 +1,14 @@
+.p-skeleton {
+    background-color: $skeletonBg;
+    border-radius: $borderRadius;
+    cursor: wait;
+
+    &:after {
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0),
+            $skeletonAnimationBg,
+            rgba(255, 255, 255, 0)
+        );
+    }
+}
