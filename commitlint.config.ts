@@ -4,6 +4,7 @@ module.exports = {
   rules: {
     "type-empty": [2, "never"],
     "scope-empty": [0, "always"],
+    "subject-case": [0], // Disable subject case validation
     // "header-match": [2, "always", /^(feat|fix|docs|...): #\d+ .*/],
     "header-min-length": [2, "always", 10],
     "header-max-length": [2, "always", 72],
