@@ -57,6 +57,8 @@ export default function HomeProvider() {
 
   const tabsItems: ITabItem[] = [
     ReportTab(),
+    // Adicionar novas tabs aqui
+
     // ...renderWithPermission<ITabItem>(
     //   PermissionsItems.SYSTEM_USERS,
     //   [SystemUsersActions.ACCESS],
@@ -90,7 +92,7 @@ export default function HomeProvider() {
   return (
     <HomeContext.Provider value={value}>
       <>
-        <Card className="shadow shadow-sm overflow-hidden">
+        <Card className="shadow-sm overflow-hidden">
           <Tabs
             activeKey={activeTab}
             onSelect={onTabChange}

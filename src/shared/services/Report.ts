@@ -10,14 +10,14 @@ import type {
 
 export class ReportServices extends BaseService {
   static {
-    this.setPrefix("/report");
+    this.setPrefix("/reports");
   }
 
   public static async getReports(params?: IGetReportParams) {
     // eslint-disable-next-line no-useless-catch
     try {
       const response: IBasicResponse<IGetReportResponse[]> = (
-        await ServiceSynapse.get(this.endpoint("/list"), {
+        await ServiceSynapse.get(this.endpoint("/"), {
           headers: await this.getHeaders(),
           params,
           paramsSerializer: {
@@ -31,13 +31,12 @@ export class ReportServices extends BaseService {
     }
   }
 
-  public static async getReportDetails(params?: IGetReportDetailsParams) {
+  public static async getReportDetails(params: IGetReportDetailsParams) {
     // eslint-disable-next-line no-useless-catch
     try {
       const response: IBasicResponse<IGetReportDetailsResponse> = (
-        await ServiceSynapse.get(this.endpoint("/"), {
+        await ServiceSynapse.get(this.endpoint(`/${params.id}`), {
           headers: await this.getHeaders(),
-          params,
         })
       ).data;
       return response.data;
