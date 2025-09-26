@@ -61,7 +61,7 @@ export const DateField = memo(
         <Col md={6}>
           <Form.Group className="mb-3">
             <Form.Label htmlFor={GetReportParamsKeys.END_DATE}>
-              Data Final
+              End Date
             </Form.Label>
             <Calendar
               id={GetReportParamsKeys.END_DATE}
