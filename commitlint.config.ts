@@ -7,7 +7,7 @@ module.exports = {
     "subject-case": [0], // Disable subject case validation
     // "header-match": [2, "always", /^(feat|fix|docs|...): #\d+ .*/],
     "header-min-length": [2, "always", 10],
-    "header-max-length": [2, "always", 72],
+    "header-max-length": [2, "always", 100],
     "type-enum": [
       2,
       "always",
