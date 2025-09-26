@@ -52,25 +52,35 @@ The project uses **ESLint** and **Commitlint** to ensure code quality and consis
 The project's architecture is designed to be modular and scalable.
 
 ```
-.
-├── 📁 assets/                 # Media files (images, icons, etc.)
-├── 📁 pages/                  # Page components (navigation routes)
-├── 📁 routes/                 # Application route definitions
-├── 📁 shared/                 # Reusable components and functionalities
-│   ├── 📁 components/         # Generic components (buttons, badges, layouts)
-│   │   ├── 📁 common/         # Shared components
-│   │   ├── 📁 interfaces/     # Type and interface definitions
-│   │   └── 📁 layout/         # Layout components (headers, footers)
-│   ├── 📁 context/            # Global application contexts
-│   ├── 📁 hooks/              # Custom hooks
-│   ├── 📁 services/           # Business logic and API calls
-│   └── 📁 themes/             # Application styling (themes, colors, variables)
-│       └── 📁 styles/
-│           ├── 🎨 App.css     # Component styles
-│           └── 🎨 index.css   # Global styles
-├── 📄 App.tsx                 # Main component
+src/
+├── 📁 assets/                 # Static assets (images, icons, logos)
+├── 📁 config/                 # Configuration files (WebSocket, API settings)
+├── 📁 constants/              # Application constants (routes, permissions, formats)
+├── 📁 dev/                    # Development utilities and debug components
+├── 📁 interfaces/             # TypeScript type definitions and interfaces
+│   ├── 📁 components/         # Component interface definitions
+│   ├── 📁 constants/          # Constants type definitions
+│   ├── 📁 contexts/           # Context interface definitions
+│   ├── 📁 pages/              # Page component interfaces
+│   ├── 📁 services/           # API service interfaces
+│   └── 📁 utils/              # Utility function interfaces
+├── 📁 pages/                  # Application pages and route components
+│   ├── 📁 Home/               # Home dashboard with tabs and data tables
+│   ├── 📁 Login/              # Authentication pages (login, register, reset)
+│   └── 📄 NotFound.tsx        # 404 error page
+├── 📁 routes/                 # Route definitions and navigation setup
+├── 📁 shared/                 # Reusable components and shared functionality
+│   ├── 📁 components/         # UI components (buttons, modals, forms, tables)
+│   ├── 📁 context/            # Global state management (Auth, Notifications)
+│   ├── 📁 services/           # API services and business logic
+│   └── 📁 themes/             # SCSS styling and component themes
+├── 📁 utils/                  # Utility functions and helpers
+│   ├── 📁 Format/             # Data formatting utilities
+│   ├── 📁 Style/              # Styling utilities
+│   └── 📁 lib/                # Third-party library configurations
+├── 📄 App.tsx                 # Root application component
 ├── 📄 main.tsx                # Application entry point
-└── 📄 vite-env.d.ts           # Type declaration file for Vite
+└── 📄 vite-env.d.ts           # Vite environment type declarations
 ```
 
 ---
