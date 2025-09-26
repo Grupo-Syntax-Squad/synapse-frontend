@@ -1,0 +1,300 @@
+$font-family: "Arial", sans-serif !default;
+
+:root {
+  --highcharts-neutral-color-100: var(--synapse-gray-900);
+  --highcharts-neutral-color-80: var(--synapse-gray-700);
+  --highcharts-neutral-color-60: var(--synapse-gray-700);
+  --highcharts-neutral-color-40: var(--synapse-gray-600);
+  --highcharts-neutral-color-20: var(--synapse-gray-500);
+  --highcharts-neutral-color-5: var(--synapse-gray-300);
+  --highcharts-neutral-color-3: var(--synapse-gray-100);
+
+  --highcharts-highlight-color-100: rgb(99, 102, 241);
+  --highcharts-highlight-color-80: rgb(127, 129, 240);
+  --highcharts-highlight-color-60: rgb(154, 156, 239);
+  --highcharts-highlight-color-20: rgb(209, 210, 238);
+  --highcharts-highlight-color-10: rgb(223, 224, 237);
+
+  --highcharts-positive-color: var(--synapse-success);
+  --highcharts-negative-color: var(--synapse-danger);
+}
+
+$highcharts-color-0: var(--highcharts-color-0) !important;
+$highcharts-color-1: var(--highcharts-color-1) !important;
+$highcharts-color-2: var(--highcharts-color-2) !important;
+$highcharts-color-3: var(--highcharts-color-3) !important;
+$highcharts-color-4: var(--highcharts-color-4) !important;
+$highcharts-color-5: var(--highcharts-color-5) !important;
+$highcharts-color-6: var(--highcharts-color-6) !important;
+$highcharts-color-7: var(--highcharts-color-7) !important;
+$highcharts-color-8: var(--highcharts-color-8) !important;
+$highcharts-color-9: var(--highcharts-color-9) !important;
+
+$highcharts-background-color: var(--highcharts-background-color) !important;
+$highcharts-neutral-color-100: var(--highcharts-neutral-color-100) !important;
+$highcharts-neutral-color-80: var(--highcharts-neutral-color-80) !important;
+$highcharts-neutral-color-60: var(--highcharts-neutral-color-60) !important;
+$highcharts-neutral-color-40: var(--highcharts-neutral-color-40) !important;
+$highcharts-neutral-color-20: var(--highcharts-neutral-color-20) !important;
+$highcharts-neutral-color-10: var(--highcharts-neutral-color-10) !important;
+$highcharts-neutral-color-5: var(--highcharts-neutral-color-5) !important;
+$highcharts-neutral-color-3: var(--highcharts-neutral-color-3) !important;
+
+$highcharts-positive-color: var(--highcharts-positive-color) !important;
+$highcharts-negative-color: var(--highcharts-negative-color) !important;
+
+/* Highlight color variations */
+
+$highcharts-highlight-color-100: var(
+  --highcharts-highlight-color-100
+) !important;
+$highcharts-highlight-color-80: var(--highcharts-highlight-color-80) !important;
+$highcharts-highlight-color-60: var(--highcharts-highlight-color-60) !important;
+$highcharts-highlight-color-20: var(--highcharts-highlight-color-20) !important;
+$highcharts-highlight-color-10: var(--highcharts-highlight-color-10) !important;
+
+.highcharts-legend-item {
+  cursor: pointer;
+}
+
+.highcharts-background {
+  fill: none !important;
+}
+
+.highcharts-data-label text .highcharts-text-outline {
+  stroke-width: 0px !important;
+  fill: none !important;
+}
+
+.highcharts-container,
+.highcharts-title,
+.highcharts-subtitle {
+  font-family: $font-family !important;
+}
+
+//theme
+.highcharts-background {
+  fill: none !important;
+}
+
+//using background
+.highcharts-markers,
+.highcharts-column-series path.highcharts-point,
+.highcharts-bar-series path.highcharts-point,
+.highcharts-pie-series .highcharts-point,
+.highcharts-funnel-series .highcharts-point,
+.highcharts-pyramid-series .highcharts-point {
+  stroke: $highcharts-background-color;
+}
+
+.highcharts-tooltip-box,
+.highcharts-tooltip-box,
+.highcharts-tooltip-box .highcharts-label-box,
+.highcharts-boxplot-box,
+.highcharts-crosshair-label text,
+.highcharts-candlestick-series .highcharts-point-up,
+.highcharts-flags-series .highcharts-point .highcharts-label-box,
+.highcharts-map-navigation.highcharts-button,
+.highcharts-contextbutton {
+  fill: $highcharts-background-color;
+}
+
+.highcharts-loading,
+.highcharts-menu {
+  background-color: $highcharts-background-color;
+}
+
+//neutral-100
+.highcharts-label text,
+.highcharts-title,
+.highcharts-axis-labels,
+.highcharts-axis-labels text,
+.highcharts-tooltip text,
+.highcharts-data-label text,
+text.highcharts-data-label,
+.highcharts-legend-item > text,
+.highcharts-bubble-legend-labels,
+.highcharts-button text,
+.highcharts-button-hover text,
+.highcharts-button-pressed text,
+.highcharts-button-disabled text,
+.highcharts-range-input text,
+.highcharts-menu-item,
+.highcharts-plot-band-label {
+  fill: $highcharts-neutral-color-100;
+  color: $highcharts-neutral-color-100;
+}
+
+.highcharts-series:not(.highcharts-pie-series) .highcharts-point-select,
+.highcharts-markers .highcharts-point-select,
+.highcharts-lollipop-stem,
+.highcharts-errorbar-series .highcharts-point,
+.highcharts-candlestick-series .highcharts-point,
+.highcharts-flags-series .highcharts-point-hover .highcharts-label-box,
+.highcharts-axis-resizer,
+.highcharts-annotation-label-box {
+  stroke: $highcharts-neutral-color-100;
+}
+
+//neutral-80
+.highcharts-credits:hover,
+.highcharts-legend-item:hover text,
+.highcharts-pane,
+.highcharts-gauge-series .highcharts-dial,
+.highcharts-navigator-xaxis.highcharts-axis-labels,
+.highcharts-flags-series .highcharts-point text,
+.highcharts-annotation-label-box {
+  fill: $highcharts-neutral-color-80;
+}
+
+.highcharts-axis-line,
+.highcharts-tick,
+.highcharts-waterfall-series .highcharts-graph,
+.highcharts-lineargauge-target,
+.highcharts-lineargauge-target-line {
+  stroke: $highcharts-neutral-color-80;
+}
+
+//neutral-60
+.highcharts-subtitle,
+.highcharts-axis-title,
+.highcharts-scrollbar-arrow,
+.highcharts-range-label text,
+.highcharts-breadcrumbs-separator,
+.highcharts-no-data text {
+  fill: $highcharts-neutral-color-60;
+}
+.highcharts-button-symbol {
+  stroke: $highcharts-neutral-color-60;
+}
+
+//neutral-40
+.highcharts-credits,
+.highcharts-coloraxis-marker {
+  fill: $highcharts-neutral-color-40;
+}
+
+.highcharts-treemap-series .highcharts-point-hover,
+.highcharts-navigator-outline,
+.highcharts-navigator-handle,
+.highcharts-plot-line,
+.highcharts-flags-series .highcharts-point .highcharts-label-box {
+  stroke: $highcharts-neutral-color-40;
+}
+
+// neutral-20
+.highcharts-series:not(.highcharts-pie-series) .highcharts-point-select,
+.highcharts-markers .highcharts-point-select,
+.highcharts-legend-nav-inactive,
+.highcharts-scrollbar-thumb {
+  fill: $highcharts-neutral-color-20;
+}
+
+.highcharts-crosshair-thin,
+.highcharts-empty-series,
+.highcharts-button-hover,
+.highcharts-button-pressed,
+.highcharts-range-input,
+.highcharts-scrollbar-button,
+.highcharts-scrollbar-track,
+.highcharts-map-series .highcharts-point,
+.highcharts-gauge-series .highcharts-data-label-box,
+.highcharts-venn-series .highcharts-point,
+.highcharts-venn-series .highcharts-point-hover,
+.highcharts-timeline-series .highcharts-graph,
+.highcharts-mapview-inset-border,
+.highcharts-scrollbar-thumb,
+.highcharts-button {
+  stroke: $highcharts-neutral-color-20;
+}
+
+// neutral-10
+.highcharts-grid-line,
+.highcharts-treemap-series .highcharts-point,
+.highcharts-navigator-xaxis .highcharts-grid-line,
+.highcharts-map-navigation.highcharts-button,
+.highcharts-contextbutton:hover {
+  stroke: $highcharts-neutral-color-10;
+}
+
+.highcharts-scrollbar-button,
+.highcharts-button-hover,
+.highcharts-map-navigation.highcharts-button:hover,
+.highcharts-contextbutton:hover,
+.highcharts-annotation-label text {
+  fill: $highcharts-neutral-color-10;
+}
+
+//neutral-5
+.highcharts-minor-grid-line {
+  stroke: $highcharts-neutral-color-5;
+}
+
+.highcharts-navigator-handle {
+  fill: $highcharts-neutral-color-5;
+}
+
+//neutral-3
+.highcharts-null-point,
+.highcharts-button {
+  fill: $highcharts-neutral-color-3;
+}
+
+.highcharts-menu-item:hover {
+  color: $highcharts-highlight-color-100;
+}
+//highlight-100
+.highcharts-legend-nav-active,
+.highcharts-drilldown-data-label text,
+text.highcharts-drilldown-data-label,
+.highcharts-drilldown-axis-label {
+  fill: $highcharts-highlight-color-100;
+}
+
+//highlight-80
+.highcharts-selection-marker,
+.highcharts-selection-marker,
+.highcharts-navigator-series {
+  fill: $highcharts-highlight-color-80;
+}
+
+.highcharts-navigator-series {
+  stroke: $highcharts-highlight-color-80;
+}
+
+//highlight-20
+.highcharts-flags-series .highcharts-point-hover .highcharts-label-box {
+  fill: $highcharts-highlight-color-20;
+}
+.highcharts-crosshair-category {
+  stroke: $highcharts-highlight-color-20;
+}
+
+//highlight-10
+.highcharts-button-pressed {
+  fill: $highcharts-highlight-color-10;
+}
+
+//positive
+.highcharts-hollowcandlestick-series .highcharts-point-down-bearish-up {
+  fill: $highcharts-positive-color;
+}
+.highcharts-hollowcandlestick-series .highcharts-point-down-bearish-up,
+.highcharts-hollowcandlestick-series .highcharts-point-up {
+  stroke: $highcharts-positive-color;
+}
+
+//negative
+.highcharts-hollowcandlestick-series .highcharts-point-down {
+  fill: $highcharts-negative-color;
+  stroke: $highcharts-negative-color;
+}
+
+//button
+.highcharts-button {
+  fill: none !important;
+}
+
+.highcharts-button-box {
+  fill: $highcharts-highlight-color-100;
+}
