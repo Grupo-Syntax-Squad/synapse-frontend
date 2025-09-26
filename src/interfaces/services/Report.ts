@@ -4,13 +4,13 @@ export enum GetReportParamsKeys {
 }
 
 export interface IGetReportParams {
-  [GetReportParamsKeys.START_DATE]: Date;
-  [GetReportParamsKeys.END_DATE]: Date;
+  [GetReportParamsKeys.START_DATE]?: Date;
+  [GetReportParamsKeys.END_DATE]?: Date;
 }
 
 export enum GetReportKeys {
   REPORT_ID = "id",
-  REPORT_NAME = "report_name",
+  REPORT_NAME = "name",
   REPORT_CREATION_DATE = "created_at",
   REPORT_CONTENT = "REPORT_CONTENT",
 }
@@ -23,7 +23,7 @@ export interface IGetReportResponse {
 
 export enum GetReportDetailsKeys {
   REPORT_ID = "id",
-  REPORT_NAME = "report_name",
+  REPORT_NAME = "name",
   REPORT_CREATION_DATE = "created_at",
   REPORT_CONTENT = "content",
 }

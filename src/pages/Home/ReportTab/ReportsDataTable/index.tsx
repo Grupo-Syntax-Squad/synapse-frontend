@@ -53,7 +53,7 @@ export const ReportsDataTable = () => {
   }));
 
   return (
-    <Card className="shadow shadow-sm">
+    <Card className="shadow-sm">
       <CardDetails
         title="Reports"
         rightTitleContent={<Badge>{reports.length}</Badge>}
@@ -66,7 +66,7 @@ export const ReportsDataTable = () => {
           inputId="search-report"
           leftContent={
             // Botao proviorio apenas para gerar relatorios enquanto nao ha sazonalidade
-            <Button className="shadow-primary" onClick={onGenerateReport}>
+            <Button className="" onClick={onGenerateReport}>
               Generate Report
             </Button>
           }

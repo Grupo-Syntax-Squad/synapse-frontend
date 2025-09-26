@@ -18,7 +18,7 @@ export const SearchCard = ({ onClear, onSubmit, children }: Props) => (
       className="d-flex justify-content-end gap-2"
     >
       <Button
-        iconType={ButtonIconType.DELETE}
+        iconType={ButtonIconType.CLEAR}
         className="w-100 w-md-auto"
         onClick={onClear}
       >
