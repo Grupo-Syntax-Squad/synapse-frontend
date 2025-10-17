@@ -24,26 +24,6 @@ export const ReportsDataTable = () => {
   const [dataTableFilter, setDataTableFilter] = useState({
     global: { value: "", matchMode: FilterMatchMode.CONTAINS },
   });
-  const { Loading, Toast } = useNotification();
-
-  const onGenerateReport = async () => {
-    try {
-      Loading.show("Generating a new report...");
-      await ReportServices.generateReport();
-      Toast.show("success", "Sucesso", "report generated!");
-    } catch (error: unknown) {
-      Toast.show(
-        "error",
-        "Generate new report",
-        `Not possible to generate a new report: ${
-          (error as { message?: string }).message ||
-          "An unexpected error occurred"
-        } try again.`
-      );
-    } finally {
-      Loading.hide();
-    }
-  };
 
   const formattedReportsData: IGetReportResponse[] = reports.map((report) => ({
     ...report,
@@ -64,12 +44,6 @@ export const ReportsDataTable = () => {
           setDataTableFilter={setDataTableFilter}
           type={TableHeaderType.ONLY_SEARCH}
           inputId="search-report"
-          leftContent={
-            // Botao proviorio apenas para gerar relatorios enquanto nao ha sazonalidade
-            <Button className="" onClick={onGenerateReport}>
-              Generate Report
-            </Button>
-          }
           inputPlaceholder="Search report..."
         />
         <DataTable

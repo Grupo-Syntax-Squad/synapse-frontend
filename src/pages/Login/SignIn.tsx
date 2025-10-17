@@ -105,18 +105,38 @@ export default function SignIn() {
           />
         </div>
 
-        <h2 className="display-5 display-lg-4 fw-bold text-white text-center mb-3">
+        <h2
+          style={{ fontSize: '80px', zIndex: 2, position: 'relative' }}
+          className="font-bold text-white text-center mb-3"
+        >
           Welcome
         </h2>
 
         <div
-          className="position-absolute bottom-0 bg-tertiary start-0 m-3 m-md-4 d-none d-lg-block"
-          style={{
-            width: "80px",
-            height: "80px",
-            borderRadius: "50%",
-          }}
-        ></div>
+        className="position-absolute bottom-0 end-0 d-none d-lg-block"
+        style={{
+          width: "500px",
+          height: "500px",
+          borderRadius: "50%",
+          backgroundColor: "#6a0df5",
+          boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
+          margin: "2rem",
+        }}
+      ></div>
+
+      <div
+        className="position-absolute top-50 start-0 d-none d-lg-block"
+        style={{
+          width: "500px", 
+          height: "500px",
+          borderRadius: "50%",
+          backgroundColor: "#7c1cff",
+          boxShadow: "0 30px 90px rgba(0, 0, 0, 0.25)",
+          transform: "translateY(-50%)",
+          margin: "2rem",
+        }}
+      ></div>
+
       </Col>
     </Row>
   );
