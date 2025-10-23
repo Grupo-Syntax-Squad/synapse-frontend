@@ -1,6 +1,10 @@
 import type { IBasicResponse } from "@/interfaces/services/BasicResponse";
 import { BaseService } from "./BaseService";
 import { ServiceSynapse } from "./Api";
+import type {
+  IGetUserResponse,
+  IFilterGetUsers,
+} from "@/interfaces/services/Users";
 
 export class UserServices extends BaseService {
   static {
@@ -16,6 +20,22 @@ export class UserServices extends BaseService {
     try {
       const response: IBasicResponse<null> = (
         await ServiceSynapse.post(this.endpoint("/register"), params, {
+          headers: await this.getHeaders(),
+        })
+      ).data;
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public static async getUsers(
+    params?: Partial<IFilterGetUsers>
+  ): Promise<IGetUserResponse[]> {
+    try {
+      const response: IBasicResponse<IGetUserResponse[]> = (
+        await ServiceSynapse.get(this.endpoint("/"), {
+          params,
           headers: await this.getHeaders(),
         })
       ).data;

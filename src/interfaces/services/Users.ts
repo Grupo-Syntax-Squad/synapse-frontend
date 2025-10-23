@@ -9,7 +9,7 @@ export enum GetUserResponseKeys {
   USERNAME = "username",
   EMAIL = "email",
   IS_ADMIN = "is_admin",
-  RECEIVE_REPORTS = "receive_reports",
+  RECEIVE_REPORTS = "receive_email",
 }
 
 export interface IGetUserResponse {

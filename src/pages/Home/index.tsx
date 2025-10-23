@@ -10,7 +10,7 @@ import { Card } from "react-bootstrap";
 // import { useAuth } from "@/shared/context";
 import type { ITabItem } from "@/interfaces/components/Tabs";
 import { ReportTab } from "./ReportTab";
-// import { SystemUsersTab } from "./SystemUsersTab";
+import { SystemUsersTab } from "./SystemUsersTab";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export enum HomeTabKeys {
@@ -57,6 +57,7 @@ export default function HomeProvider() {
 
   const tabsItems: ITabItem[] = [
     ReportTab(),
+    SystemUsersTab(),
     // Adicionar novas tabs aqui
 
     // ...renderWithPermission<ITabItem>(
