@@ -1,20 +1,21 @@
-import type { IBasicResponse } from "@/interfaces/services/BasicResponse";
-import { BaseService } from "./BaseService";
-import { ServiceSynapse } from "./Api";
+import type { IBasicResponse } from "@/interfaces/services/BasicResponse"
+import { BaseService } from "./BaseService"
+import { ServiceSynapse } from "./Api"
 import type {
   IGetUserResponse,
   IFilterGetUsers,
-} from "@/interfaces/services/Users";
+  IPartialUpdateUserRequest,
+} from "@/interfaces/services/Users"
 
 export class UserServices extends BaseService {
   static {
-    this.setPrefix("/users");
+    this.setPrefix("/users")
   }
 
   public static async registerUser(params: {
-    username: string;
-    email: string;
-    password: string;
+    username: string
+    email: string
+    password: string
   }) {
     // eslint-disable-next-line no-useless-catch
     try {
@@ -22,10 +23,10 @@ export class UserServices extends BaseService {
         await ServiceSynapse.post(this.endpoint("/register"), params, {
           headers: await this.getHeaders(),
         })
-      ).data;
-      return response.data;
+      ).data
+      return response.data
     } catch (error) {
-      throw error;
+      throw error
     }
   }
 
@@ -38,10 +39,26 @@ export class UserServices extends BaseService {
           params,
           headers: await this.getHeaders(),
         })
-      ).data;
-      return response.data;
+      ).data
+      return response.data
     } catch (error) {
-      throw error;
+      throw error
+    }
+  }
+
+  public static async partialUpdateUser(
+    data: IPartialUpdateUserRequest
+  ): Promise<null> {
+    try {
+      const response: IBasicResponse<null> =
+        (
+          await ServiceSynapse.patch(this.endpoint("/"), data, {
+            headers: await this.getHeaders(),
+          })
+        ).data
+      return response.data
+    } catch (error) {
+      throw error
     }
   }
 }
