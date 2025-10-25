@@ -10,6 +10,7 @@ export enum GetUserResponseKeys {
   EMAIL = "email",
   IS_ADMIN = "is_admin",
   RECEIVE_REPORTS = "receive_email",
+  IS_ACTIVE = "is_active",
 }
 
 export interface IGetUserResponse {
@@ -18,6 +19,7 @@ export interface IGetUserResponse {
   [GetUserResponseKeys.EMAIL]: string
   [GetUserResponseKeys.IS_ADMIN]: boolean
   [GetUserResponseKeys.RECEIVE_REPORTS]: boolean
+  [GetUserResponseKeys.IS_ACTIVE]: boolean
 }
 
 export interface IUpdateUserRequest {
