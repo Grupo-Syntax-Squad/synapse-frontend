@@ -162,7 +162,7 @@ export const useUsersTab = () => {
   const context = useContext(UsersTabContext)
   if (!context) {
     throw new Error(
-      "useUsersTab hook só pode ser usado dentro de UsersTabProvider."
+      "useUsersTab hook can only be used inside UsersTabProvider."
     )
   }
   return context
