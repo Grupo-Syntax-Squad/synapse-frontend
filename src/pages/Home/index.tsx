@@ -50,10 +50,9 @@ export default function HomeProvider() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultTab])
 
-  const allTabs: (ITabItem | null)[] = [
-    ReportTab(),
-    user?.is_admin ? SystemUsersTab() : SystemUsersTab(),
-  ].filter(Boolean) // Filtra os itens nulos
+  const allTabs: (ITabItem | null)[] = [ReportTab(), SystemUsersTab()].filter(
+    Boolean
+  ) // Filtra os itens nulos
 
   const tabsItems: ITabItem[] = allTabs as ITabItem[]
 
