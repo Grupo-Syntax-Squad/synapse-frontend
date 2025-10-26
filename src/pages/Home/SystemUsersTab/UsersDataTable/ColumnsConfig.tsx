@@ -104,7 +104,7 @@ export const ColumnsConfig = (): IColumn[] => {
     },
     {
       header: "Receive Reports",
-      field: "receive_email",
+      field: GetUserResponseKeys.RECEIVE_REPORTS,
       body: receiveEmailBody,
       sortable: true,
     },
