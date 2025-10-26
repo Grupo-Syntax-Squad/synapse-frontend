@@ -96,7 +96,7 @@ export function UsersTabProvider() {
       body: (
         <span>
           Are you sure you want to deactivate the user{" "}
-          <strong>{user.username}</strong>? This action cannot be undone..
+          <strong>{user.username}</strong>? This action cannot be undone.
         </span>
       ),
       onConfirm: handleConfirmDelete,
