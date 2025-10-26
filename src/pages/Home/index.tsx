@@ -52,7 +52,7 @@ export default function HomeProvider() {
 
   const allTabs: (ITabItem | null)[] = [
     ReportTab(),
-    user?.is_admin ? SystemUsersTab() : null,
+    user?.is_admin ? SystemUsersTab() : SystemUsersTab(),
   ].filter(Boolean) // Filtra os itens nulos
 
   const tabsItems: ITabItem[] = allTabs as ITabItem[]

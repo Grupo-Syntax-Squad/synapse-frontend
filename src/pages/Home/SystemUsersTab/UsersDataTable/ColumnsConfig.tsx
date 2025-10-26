@@ -1,5 +1,5 @@
-import { Button } from "@/shared/components"
-import type { IColumn } from "@/interfaces/components/Column"
+import { Button, RequirePermission } from "@/shared/components"
+import type { IColumn } from "@/interfaces/components/DataTable"
 import {
   GetUserResponseKeys,
   type IGetUserResponse,
@@ -10,37 +10,31 @@ import { Fragment } from "react"
 import { Badge } from "react-bootstrap"
 
 export const ColumnsConfig = (): IColumn[] => {
-  const { onShowModalViewUserDetails, onShowModalUpdateUser, onDeleteUser } =
-    useUsersTab()
+  const { onShowModalUpdateUser, onDeleteUser } = useUsersTab()
 
   const actionsBody = (row: IGetUserResponse) => (
     <Fragment>
-      <Button
-        outline
-        btnIcon
-        iconType={ButtonIconType.SEE}
-        onClick={() => onShowModalViewUserDetails(row)}
-        className="me-2"
-      />
-      <Button
-        outline
-        btnIcon
-        iconType={ButtonIconType.EDIT}
-        onClick={() => onShowModalUpdateUser(row)}
-        className="me-2"
-      />
-      <Button
-        outline
-        btnIcon
-        iconType={ButtonIconType.DELETE}
-        onClick={() => onDeleteUser(row)}
-      />
+      <RequirePermission>
+        <Button
+          outline
+          btnIcon
+          iconType={ButtonIconType.EDIT}
+          onClick={() => onShowModalUpdateUser(row)}
+          className="me-2"
+        />
+        <Button
+          outline
+          btnIcon
+          iconType={ButtonIconType.DELETE}
+          onClick={() => onDeleteUser(row)}
+        />
+      </RequirePermission>
     </Fragment>
   )
 
   const statusBody = (row: IGetUserResponse) => {
     const isActive = row[GetUserResponseKeys.IS_ACTIVE]
-    const text = isActive ? "Ativo" : "Desativado"
+    const text = isActive ? "Active" : "Inactive"
 
     return (
       <Badge
@@ -55,7 +49,7 @@ export const ColumnsConfig = (): IColumn[] => {
 
   const receiveEmailBody = (row: IGetUserResponse) => {
     const receivesEmail = row[GetUserResponseKeys.RECEIVE_REPORTS]
-    const text = receivesEmail ? "Sim" : "Não"
+    const text = receivesEmail ? "Yes" : "No"
 
     return (
       <Badge
@@ -70,7 +64,7 @@ export const ColumnsConfig = (): IColumn[] => {
 
   const isAdminBody = (row: IGetUserResponse) => {
     const isAdmin = row[GetUserResponseKeys.IS_ADMIN]
-    const text = isAdmin ? "Sim" : "Não"
+    const text = isAdmin ? "Yes" : "No"
 
     return (
       <Badge
@@ -85,7 +79,7 @@ export const ColumnsConfig = (): IColumn[] => {
 
   return [
     {
-      header: "Nome de Usuário",
+      header: "Username",
       field: GetUserResponseKeys.USERNAME,
       align: "left",
       sortable: true,
@@ -103,19 +97,19 @@ export const ColumnsConfig = (): IColumn[] => {
       sortable: true,
     },
     {
-      header: "Administrador",
+      header: "Administrator",
       field: GetUserResponseKeys.IS_ADMIN,
       body: isAdminBody,
       sortable: true,
     },
     {
-      header: "Recebe Relatórios",
+      header: "Receive Reports",
       field: "receive_email",
       body: receiveEmailBody,
       sortable: true,
     },
     {
-      header: "Ações",
+      header: "Action",
       body: actionsBody,
       exportable: false,
     },
