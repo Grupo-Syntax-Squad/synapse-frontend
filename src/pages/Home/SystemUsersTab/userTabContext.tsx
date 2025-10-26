@@ -5,7 +5,6 @@ import type {
   TModalForwardHandles,
 } from "@/interfaces/components/Modal"
 import {
-  GetUserResponseKeys,
   type IGetUserResponse,
   type IFilterGetUsers,
   UserUpdateFields,
@@ -14,7 +13,6 @@ import { UserServices } from "@/shared/services/User"
 import { createContext, useContext, useEffect, useRef, useState } from "react"
 import { HomeTabKeys, useHome } from ".."
 import { UsersDataTable } from "./UsersDataTable"
-import { UserSearchFilters } from "./SearchFilters/UserSearchFilters"
 import { UpdateUserForm } from "./UpdateUserForm"
 import { Card, CardBody } from "react-bootstrap"
 import { CardDetails } from "@/shared/components/Card/CardDetails"
@@ -134,13 +132,7 @@ export function UsersTabProvider() {
   return (
     <UsersTabContext.Provider value={value}>
       {authUser?.is_admin ? (
-        <>
-          <UserSearchFilters
-            onUseQueryParamsToSearch={onUseQueryParamsToSearch}
-            onClearQueryParams={onClearQueryParams}
-          />
-          <UsersDataTable />
-        </>
+        <UsersDataTable />
       ) : (
         <Card className="shadow-sm">
           <CardDetails title="My Profile">
