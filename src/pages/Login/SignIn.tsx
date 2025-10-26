@@ -127,7 +127,7 @@ export default function SignIn() {
       <div
         className="position-absolute top-50 start-0 d-none d-lg-block"
         style={{
-          width: "500px", 
+          width: "500px",
           height: "500px",
           borderRadius: "50%",
           backgroundColor: "#7c1cff",
