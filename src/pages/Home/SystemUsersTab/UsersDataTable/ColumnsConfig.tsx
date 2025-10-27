@@ -1,5 +1,5 @@
 import { Button, RequirePermission } from "@/shared/components"
-import type { IColumn } from "@/interfaces/components/DataTable"
+import type { IColumn } from "@/interfaces/components/Column"
 import {
   GetUserResponseKeys,
   type IGetUserResponse,
