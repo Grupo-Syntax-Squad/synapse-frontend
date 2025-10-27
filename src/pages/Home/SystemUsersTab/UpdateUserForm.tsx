@@ -46,26 +46,30 @@ export const UpdateUserForm = ({ userToUpdate, onSuccess }: Props) => {
     try {
       Loading.show("Atualizando usuário...")
 
-      const updatePromises = Object.keys(data)
+      const keys = Object.keys(data) as Array<keyof IUpdateUserRequest>
+      const updatePromises = keys
         .filter(
-          (key) =>
-            data[key as keyof IUpdateUserRequest] !==
-            userToUpdate[key as keyof IGetUserResponse]
+          (key) => data[key] !== userToUpdate[key as keyof IGetUserResponse]
         )
         .map((key) => {
-          const field = key as UserUpdateFields
+          // key is a keyof IUpdateUserRequest, use it to index `data`
+          // cast to UserUpdateFields only when calling the service
+          const field = key as unknown as UserUpdateFields
           return UserServices.partialUpdateUser({
             id: userToUpdate.id,
             field,
-            value: data[field],
+            value: data[key as keyof IUpdateUserRequest],
           })
         })
 
-      await Promise.all(updatePromises)
-
-      await getUsers()
-      Toast.show("success", "Sucesso", "Usuário atualizado com sucesso!")
-      onSuccess?.()
+      if (updatePromises.length > 0) {
+        await Promise.all(updatePromises)
+        await getUsers()
+        Toast.show("success", "Sucesso", "Usuário atualizado com sucesso!")
+        onSuccess?.()
+      } else {
+        Toast.show("info", "Sem alterações", "Nenhuma alteração detectada.")
+      }
     } catch (error: unknown) {
       Toast.show(
         "error",
@@ -111,13 +115,14 @@ export const UpdateUserForm = ({ userToUpdate, onSuccess }: Props) => {
           <Controller
             name="is_admin"
             control={control}
-            render={({ field }) => (
+            render={({ field: { value, ...field } }) => (
               <Form.Check
                 {...field}
+                value={value.toString()}
                 type="switch"
                 id="is_admin-switch"
                 label="Administrator"
-                checked={field.value}
+                checked={value}
               />
             )}
           />
@@ -125,19 +130,20 @@ export const UpdateUserForm = ({ userToUpdate, onSuccess }: Props) => {
         <Controller
           name="receive_email"
           control={control}
-          render={({ field }) => (
+          render={({ field: { value, ...field } }) => (
             <Form.Check
               {...field}
+              value={value.toString()}
               type="switch"
               id="receive_email-switch"
               label="Receive Reports by Email"
-              checked={field.value}
+              checked={value}
             />
           )}
         />
       </div>
       <div className="d-flex justify-content-end mt-3">
-        <Button type="submit" loading={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting}>
           Save Changes
         </Button>
       </div>

@@ -1,4 +1,4 @@
-import { Button, Modal } from "@/shared/components"
+import { Modal } from "@/shared/components"
 import { useAuth, useNotification } from "@/shared/context"
 import type {
   TModal,
@@ -89,7 +89,7 @@ export function UsersTabProvider() {
     }
 
     onShowModal({
-      type: "delete",
+      type: "action",
       header: "Confirm Deactivation",
       body: (
         <span>
@@ -98,17 +98,14 @@ export function UsersTabProvider() {
         </span>
       ),
       onConfirm: handleConfirmDelete,
-      confirmButtonText: "Disable",
-      footer: (
-        <Button variant="danger" onClick={handleConfirmDelete}>
-          Disable
-        </Button>
-      ),
+      onCancel: onHideModal,
+      confirmLabel: "Disable",
     })
   }
 
   const onShowModalUpdateUser = (user: IGetUserResponse) => {
     onShowModal({
+      type: "action",
       header: `Edit user: ${user.username}`,
       body: <UpdateUserForm userToUpdate={user} onSuccess={onHideModal} />,
     })
