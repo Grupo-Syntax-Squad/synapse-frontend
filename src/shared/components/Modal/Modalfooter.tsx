@@ -1,6 +1,6 @@
-import { ButtonIconType } from "@/interfaces/components/Button";
-import { Button } from "../Button";
-import type { IModalFooter } from "@/interfaces/components/Modal";
+import { ButtonIconType } from "@/interfaces/components/Button"
+import { Button } from "../Button"
+import type { IModalFooter } from "@/interfaces/components/Modal"
 
 export const ModalFooter = ({
   onCancel,
@@ -9,11 +9,11 @@ export const ModalFooter = ({
   closeLabel = "Close",
   confirmLabel = "Confirm",
 }: IModalFooter) => {
-  const dismissLabel = onConfirm ? cancelLabel : closeLabel;
+  const dismissLabel = onConfirm ? cancelLabel : closeLabel
 
   return (
     <div
-      className="d-flex gap-3 justify-content-end p-dialog-footer px-0 pb-0"
+      className="d-flex gap-3 justify-content-end p-dialog-footer px-0 pb-0 mt-3"
       data-pc-section="footer"
     >
       <Button
@@ -34,5 +34,5 @@ export const ModalFooter = ({
         </Button>
       )}
     </div>
-  );
-};
+  )
+}
