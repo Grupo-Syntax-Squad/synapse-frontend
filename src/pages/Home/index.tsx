@@ -2,7 +2,6 @@ import { Tabs } from "@/shared/components"
 import { createContext, useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Card } from "react-bootstrap"
-import { useAuth } from "@/shared/context"
 import type { ITabItem } from "@/interfaces/components/Tabs"
 import { ReportTab } from "./ReportTab"
 import { SystemUsersTab } from "./SystemUsersTab"
@@ -27,7 +26,6 @@ const HomeContext = createContext<Props | undefined>(undefined)
 
 export default function HomeProvider() {
   const param = useParams()
-  const { user } = useAuth()
   const defaultTab = param["default_tab"] as keyof typeof HomeTabKeys
   const [activeTab, setActiveTab] = useState<HomeTabKeys>(HomeTabKeys.REPORTS)
 

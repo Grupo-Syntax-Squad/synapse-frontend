@@ -47,7 +47,7 @@ export function UsersTabProvider() {
       } else if (authUser) {
         setUsers([authUser as IGetUserResponse])
       }
-    } catch (error) {
+    } catch {
       Toast.show("error", "Erro", "Falha ao buscar usuários. Tente novamente.")
     } finally {
       Loading.hide()
