@@ -1,31 +1,54 @@
-import { RoleKeys } from "@/constants/permissions";
+import { RoleKeys } from "@/constants/permissions"
 
 export type TGetProfileUserResponse = {
-  [key in RoleKeys]: string;
-};
+  [key in RoleKeys]: string
+}
 
 export enum GetUserResponseKeys {
   ID = "id",
   USERNAME = "username",
   EMAIL = "email",
   IS_ADMIN = "is_admin",
-  RECEIVE_REPORTS = "receive_reports",
+  RECEIVE_REPORTS = "receive_email",
+  IS_ACTIVE = "is_active",
 }
 
 export interface IGetUserResponse {
-  [GetUserResponseKeys.ID]: number;
-  [GetUserResponseKeys.USERNAME]: string;
-  [GetUserResponseKeys.EMAIL]: string;
-  [GetUserResponseKeys.IS_ADMIN]: boolean;
-  [GetUserResponseKeys.RECEIVE_REPORTS]: boolean;
+  [GetUserResponseKeys.ID]: number
+  [GetUserResponseKeys.USERNAME]: string
+  [GetUserResponseKeys.EMAIL]: string
+  [GetUserResponseKeys.IS_ADMIN]: boolean
+  [GetUserResponseKeys.RECEIVE_REPORTS]: boolean
+  [GetUserResponseKeys.IS_ACTIVE]: boolean
+}
+
+export interface IUpdateUserRequest {
+  username: string
+  email: string
+  is_admin: boolean
+  receive_email: boolean
+}
+
+export enum UserUpdateFields {
+  USERNAME = "username",
+  EMAIL = "email",
+  IS_ADMIN = "is_admin",
+  RECEIVE_EMAIL = "receive_email",
+  IS_ACTIVE = "is_active",
+}
+
+export interface IPartialUpdateUserRequest {
+  id: number
+  field: UserUpdateFields
+  value: string | boolean
 }
 
 export interface IPutUser {
-  [PutUserKeys.ID]?: number;
-  [PutUserKeys.USERNAME]?: string;
-  [PutUserKeys.PASSWORD]?: string;
-  [PutUserKeys.CONFIRM_CODE]?: string;
-  [PutUserKeys.RECEIVE_REPORTS]?: boolean;
+  [PutUserKeys.ID]?: number
+  [PutUserKeys.USERNAME]?: string
+  [PutUserKeys.PASSWORD]?: string
+  [PutUserKeys.CONFIRM_CODE]?: string
+  [PutUserKeys.RECEIVE_REPORTS]?: boolean
 }
 
 export enum PutUserKeys {
@@ -37,10 +60,10 @@ export enum PutUserKeys {
 }
 
 export interface IFilterGetUsers {
-  [FilterGetUsersKeys.USERNAME]?: string | null;
-  [FilterGetUsersKeys.EMAIL]?: string | null;
-  [FilterGetUsersKeys.ENABLED]?: boolean | null;
-  [FilterGetUsersKeys.IS_ADMIN]?: boolean | null;
+  [FilterGetUsersKeys.USERNAME]?: string | null
+  [FilterGetUsersKeys.EMAIL]?: string | null
+  [FilterGetUsersKeys.ENABLED]?: boolean | null
+  [FilterGetUsersKeys.IS_ADMIN]?: boolean | null
 }
 
 export enum FilterGetUsersKeys {
@@ -51,5 +74,5 @@ export enum FilterGetUsersKeys {
 }
 
 export interface IDeleteUser {
-  user_id: number;
+  user_id: number
 }
