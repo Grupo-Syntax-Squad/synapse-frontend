@@ -10,6 +10,7 @@ import { Card } from "react-bootstrap";
 // import { useAuth } from "@/shared/context";
 import type { ITabItem } from "@/interfaces/components/Tabs";
 import { ReportTab } from "./ReportTab";
+import { ChatTab } from "./ChatTab";
 // import { SystemUsersTab } from "./SystemUsersTab";
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -57,6 +58,7 @@ export default function HomeProvider() {
 
   const tabsItems: ITabItem[] = [
     ReportTab(),
+    ChatTab(),
     // Adicionar novas tabs aqui
 
     // ...renderWithPermission<ITabItem>(

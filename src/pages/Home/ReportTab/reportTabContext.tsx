@@ -53,10 +53,14 @@ export function ReportsTabProvider() {
 
       onShowModal({
         type: "message",
-        header: `Report Details: ${
-          reportDetails[GetReportDetailsKeys.REPORT_NAME] || "Loading..."
-        }`,
-        className: "w-75",
+        header: (
+          <div style={{ padding: "16px 24px" }}>
+            {`Report Details: ${
+              reportDetails[GetReportDetailsKeys.REPORT_NAME] || "Loading..."
+            }`}
+          </div>
+        ),
+        className: "w-75 ",
         maximizable: true,
         body: (
           <ModalViewReportDetails

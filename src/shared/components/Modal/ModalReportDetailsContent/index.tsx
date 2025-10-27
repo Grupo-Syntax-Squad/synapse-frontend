@@ -40,18 +40,10 @@ export const ModalViewReportDetails = ({ report, onHideModal }: Props) => {
               <DetailsField
                 colType={ColType.FULL_WIDTH}
                 title="Submission Date"
-                description={new DateTime(
-                  // Acesse a propriedade "created_at" diretamente
-                  report.created_at
-                ).format(DateTimeFormat.COMPLETE)}
+                description={new DateTime(report.created_at).format(
+                  DateTimeFormat.COMPLETE
+                )}
               />
-              {/* <DetailsField
-                colType={ColType.FULL_WIDTH}
-                title="Submission Date"
-                description={new DateTime(
-                  report[GetReportDetailsKeys.REPORT_CREATION_DATE]
-                ).format(DateTimeFormat.COMPLETE)}
-              /> */}
             </Row>
           </Card.Body>
         }

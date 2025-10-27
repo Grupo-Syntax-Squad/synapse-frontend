@@ -13,7 +13,7 @@ import type { ISignUpParams } from "@/interfaces/services/Login";
 import { SignUpParamsKeys } from "@/interfaces/services/Login";
 import { useNotification } from "@/shared/context";
 import { routeMap, RouteMapKeys } from "@/constants/routes";
-import { AuthServices } from "@/shared/services/Auth";
+import { UserServices } from "@/shared/services/User";
 import { useLoginPage } from "./LoginPageContext";
 import { LoginPage } from "@/interfaces/pages/Login";
 
@@ -72,7 +72,7 @@ export default function Register() {
     Loading.show("Creating account...");
 
     try {
-      await AuthServices.registerUser({
+      await UserServices.registerUser({
         username: form.username,
         email: form.email,
         password: form.password,

@@ -48,7 +48,7 @@ export const DateField = memo(
             </Form.Label>
             <Calendar
               id={GetReportParamsKeys.START_DATE}
-              placeholder="Selecione a data inicial"
+              placeholder="Select initial date"
               value={startDateValue}
               onChange={handleStartDateChange}
               disabled={startDateDisabled}
@@ -65,7 +65,7 @@ export const DateField = memo(
             </Form.Label>
             <Calendar
               id={GetReportParamsKeys.END_DATE}
-              placeholder="Selecione a data final"
+              placeholder="Select end date"
               value={endDateValue}
               onChange={handleEndDateChange}
               disabled={endDateDisabled}

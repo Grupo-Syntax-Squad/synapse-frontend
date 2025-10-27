@@ -1,5 +1,7 @@
 export const WebSocketConfig = {
   WebSocket: {
-    address: import.meta.env.WEB_SOCKET_URL,
+    // Vite exposes env vars only with the VITE_ prefix
+    address: import.meta.env.VITE_WEB_SOCKET_URL as string | undefined,
+    defaultPath: "/ws/chat",
   },
 };
