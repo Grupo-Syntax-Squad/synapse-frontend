@@ -14,9 +14,6 @@ import { DataTableHeader } from "@/shared/components/DataTable/DataTableHeader";
 import { FilterMatchMode } from "primereact/api";
 import { CardDetails } from "@/shared/components/Card/CardDetails";
 import { DataTable as DataTablePR } from "primereact/datatable";
-import { Button } from "@/shared/components";
-import { ReportServices } from "@/shared/services/Report";
-import { useNotification } from "@/shared/context/Notification";
 
 export const ReportsDataTable = () => {
   const { reports } = useReportsTab();
