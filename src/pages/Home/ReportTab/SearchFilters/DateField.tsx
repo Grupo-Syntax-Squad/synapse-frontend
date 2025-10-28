@@ -44,7 +44,7 @@ export const DateField = memo(
         <Col md={6}>
           <Form.Group className="mb-3">
             <Form.Label htmlFor={GetReportParamsKeys.START_DATE}>
-              Data Inicial
+              Initial date
             </Form.Label>
             <Calendar
               id={GetReportParamsKeys.START_DATE}

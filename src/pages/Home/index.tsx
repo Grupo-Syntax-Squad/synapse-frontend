@@ -1,17 +1,11 @@
 import { Tabs } from "@/shared/components";
-// import {
-//   PermissionsItems,
-//   SystemUsersActions,
-//   UserActions,
-// } from "@/constants/permissions";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Card } from "react-bootstrap";
-// import { useAuth } from "@/shared/context";
 import type { ITabItem } from "@/interfaces/components/Tabs";
 import { ReportTab } from "./ReportTab";
 import { ChatTab } from "./ChatTab";
-// import { SystemUsersTab } from "./SystemUsersTab";
+import { SystemUsersTab } from "./SystemUsersTab";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export enum HomeTabKeys {
@@ -33,7 +27,6 @@ const HomeContext = createContext<Props | undefined>(undefined);
 
 export default function HomeProvider() {
   const param = useParams();
-  // const { renderWithPermission } = useAuth();
   const defaultTab = param["default_tab"] as keyof typeof HomeTabKeys;
   const [activeTab, setActiveTab] = useState<HomeTabKeys>(HomeTabKeys.REPORTS);
 
@@ -59,6 +52,7 @@ export default function HomeProvider() {
   const tabsItems: ITabItem[] = [
     ReportTab(),
     ChatTab(),
+    SystemUsersTab(),
     // Adicionar novas tabs aqui
 
     // ...renderWithPermission<ITabItem>(

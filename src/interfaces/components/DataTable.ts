@@ -1,3 +1,3 @@
-import type { DataTable, DataTableValue } from "primereact/datatable";
+import type { DataTable, DataTableValue } from "primereact/datatable"
 
-export type TDataTable<T extends DataTableValue> = DataTable<T[]>;
+export type TDataTable<T extends DataTableValue> = DataTable<T[]>

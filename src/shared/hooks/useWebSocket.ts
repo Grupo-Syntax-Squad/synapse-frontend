@@ -133,11 +133,8 @@ export const useWebSocket = (options: UseWebSocketOptions = {}) => {
       });
     }
 
-    // Cleanup on unmount
     return () => {
-      // Copy ref value to local variable for cleanup
       const handlers = new Map(handlersRef.current);
-      // Clean up all handlers
       handlers.forEach((handler, eventType) => {
         webSocketService.off(eventType, handler);
       });

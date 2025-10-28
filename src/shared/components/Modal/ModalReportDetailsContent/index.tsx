@@ -1,20 +1,20 @@
-import { Card, Row } from "react-bootstrap";
-import { CardDetails } from "../../Card/CardDetails";
-import { DetailsField } from "../../DetailsField";
-import { ModalFooter } from "../Modalfooter";
-import { CopyContent } from "../../CopyContent";
-import { ColType } from "@/interfaces/components/Col";
-import { CopyContentType } from "@/interfaces/components/CopyContent";
+import { Card, Row } from "react-bootstrap"
+import { CardDetails } from "../../Card/CardDetails"
+import { DetailsField } from "../../DetailsField"
+import { ModalFooter } from "../Modalfooter"
+import { CopyContent } from "../../CopyContent"
+import { ColType } from "@/interfaces/components/Col"
+import { CopyContentType } from "@/interfaces/components/CopyContent"
 import {
   type IGetReportDetailsResponse,
   GetReportDetailsKeys,
-} from "@/interfaces/services/Report";
-import { DateTime } from "@/utils/Format";
-import { DateTimeFormat } from "@/interfaces/utils/Format";
+} from "@/interfaces/services/Report"
+import { DateTime } from "@/utils/Format"
+import { DateTimeFormat } from "@/interfaces/utils/Format"
 
 interface Props {
-  report: IGetReportDetailsResponse;
-  onHideModal: () => void;
+  report: IGetReportDetailsResponse
+  onHideModal: () => void
 }
 
 export const ModalViewReportDetails = ({ report, onHideModal }: Props) => {
@@ -24,7 +24,7 @@ export const ModalViewReportDetails = ({ report, onHideModal }: Props) => {
         title="Report Informations"
         // eslint-disable-next-line react/no-children-prop
         children={
-          <Card.Body className="p-2">
+          <Card.Body className="p-3">
             <Row className="flex-row-col col-border p-3 gap-md-0">
               <DetailsField
                 colType={ColType.FULL_WIDTH}
@@ -51,7 +51,7 @@ export const ModalViewReportDetails = ({ report, onHideModal }: Props) => {
 
       <Card className="mt-3">
         <Card.Header as="h5">Content</Card.Header>
-        <Card.Body>
+        <Card.Body className="p-3">
           <div
             dangerouslySetInnerHTML={{
               __html: report[GetReportDetailsKeys.REPORT_CONTENT],
@@ -62,5 +62,5 @@ export const ModalViewReportDetails = ({ report, onHideModal }: Props) => {
 
       <ModalFooter onCancel={onHideModal} />
     </>
-  );
-};
+  )
+}

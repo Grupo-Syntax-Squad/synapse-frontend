@@ -13,9 +13,9 @@ import type { ISignUpParams } from "@/interfaces/services/Login";
 import { SignUpParamsKeys } from "@/interfaces/services/Login";
 import { useNotification } from "@/shared/context";
 import { routeMap, RouteMapKeys } from "@/constants/routes";
-import { UserServices } from "@/shared/services/User";
 import { useLoginPage } from "./LoginPageContext";
 import { LoginPage } from "@/interfaces/pages/Login";
+import { UserServices } from "@/shared/services/User";
 
 const defaultForm: ISignUpParams = {
   [SignUpParamsKeys.USERNAME]: "",
@@ -229,7 +229,7 @@ export default function Register() {
 
             <div className="d-grid gap-3 mt-4">
               <PrimaryLoginButton
-                label="Sigin Up"
+                label="Sign Up"
                 submitCallback={handleRegister}
                 disabled={isLoading}
               />

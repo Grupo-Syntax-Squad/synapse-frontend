@@ -44,7 +44,6 @@ export class WebSocketService {
   }
 
   private initializeEventHandlers(): void {
-    // Initialize event handler arrays
     Object.values(WebSocketEventType).forEach((eventType) => {
       this.eventHandlers.set(eventType, []);
     });
@@ -107,11 +106,8 @@ export class WebSocketService {
               const message: WebSocketMessage = JSON.parse(data);
               this.handleMessage(message);
             } catch {
-              this.emit(WebSocketEventType.CHAT_MESSAGE, {
-                message: data,
-                user_message: false,
-                created_at: new Date().toISOString(),
-              });
+              // If not valid JSON, emit as raw data without assuming it's a chat message
+              console.warn("Received non-JSON WebSocket message:", data);
             }
           } catch (error) {
             console.error("❌ Failed to handle WebSocket message:", error);
