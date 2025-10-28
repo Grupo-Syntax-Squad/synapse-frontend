@@ -1,5 +1,5 @@
-import { WebSocketConfig } from "@/config/WebSocket";
-import type { IWebSocketNotification } from "@/interfaces/services/WebSocket";
+import { WebSocketConfig } from "@/config/WebSocket"
+import type { IWebSocketNotification } from "@/interfaces/services/WebSocket"
 
 export enum WebSocketEventType {
   NOTIFICATION = "notification",
@@ -14,157 +14,157 @@ export enum WebSocketEventType {
 }
 
 interface WebSocketMessage {
-  type: WebSocketEventType;
-  data: unknown;
-  timestamp: string;
+  type: WebSocketEventType
+  data: unknown
+  timestamp: string
 }
 
-type WebSocketEventHandler = (data: unknown) => void;
+type WebSocketEventHandler = (data: unknown) => void
 
 export class WebSocketService {
-  private static instance: WebSocketService;
-  private ws: WebSocket | null = null;
+  private static instance: WebSocketService
+  private ws: WebSocket | null = null
   private eventHandlers: Map<WebSocketEventType, WebSocketEventHandler[]> =
-    new Map();
-  private reconnectAttempts = 0;
-  private maxReconnectAttempts = 5;
-  private reconnectInterval = 3000; // 3 seconds
-  private isConnecting = false;
-  private isManualClose = false;
+    new Map()
+  private reconnectAttempts = 0
+  private maxReconnectAttempts = 5
+  private reconnectInterval = 3000 // 3 seconds
+  private isConnecting = false
+  private isManualClose = false
 
   private constructor() {
-    this.initializeEventHandlers();
+    this.initializeEventHandlers()
   }
 
   public static getInstance(): WebSocketService {
     if (!WebSocketService.instance) {
-      WebSocketService.instance = new WebSocketService();
+      WebSocketService.instance = new WebSocketService()
     }
-    return WebSocketService.instance;
+    return WebSocketService.instance
   }
 
   private initializeEventHandlers(): void {
     Object.values(WebSocketEventType).forEach((eventType) => {
-      this.eventHandlers.set(eventType, []);
-    });
+      this.eventHandlers.set(eventType, [])
+    })
   }
 
   public connect(options?: {
-    path?: string;
-    query?: Record<string, string | number | boolean>;
+    path?: string
+    query?: Record<string, string | number | boolean>
   }): Promise<void> {
     return new Promise((resolve, reject) => {
       if (
         this.isConnecting ||
         (this.ws && this.ws.readyState === WebSocket.CONNECTING)
       ) {
-        return;
+        return
       }
 
       if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-        resolve();
-        return;
+        resolve()
+        return
       }
 
-      this.isConnecting = true;
-      this.isManualClose = false;
+      this.isConnecting = true
+      this.isManualClose = false
 
       try {
-        const wsBase = WebSocketConfig.WebSocket.address;
+        const wsBase = WebSocketConfig.WebSocket.address
         const path =
-          options?.path ?? WebSocketConfig.WebSocket.defaultPath ?? "/";
-        const qsObj = options?.query ?? {};
+          options?.path ?? WebSocketConfig.WebSocket.defaultPath ?? "/"
+        const qsObj = options?.query ?? {}
         const qs = Object.keys(qsObj).length
           ? `?${new URLSearchParams(
               Object.entries(qsObj).reduce((acc, [k, v]) => {
-                acc[k] = String(v);
-                return acc;
+                acc[k] = String(v)
+                return acc
               }, {} as Record<string, string>)
             ).toString()}`
-          : "";
+          : ""
         const wsUrl = wsBase
           ? `${wsBase.replace(/\/$/, "")}${path}${qs}`
-          : undefined;
+          : undefined
         if (!wsUrl) {
-          throw new Error("WebSocket URL not configured");
+          throw new Error("WebSocket URL not configured")
         }
 
-        this.ws = new WebSocket(wsUrl);
+        this.ws = new WebSocket(wsUrl)
 
         this.ws.onopen = () => {
-          console.log("WebSocket connected successfully");
-          this.isConnecting = false;
-          this.reconnectAttempts = 0;
-          this.emit(WebSocketEventType.CONNECT, null);
-          resolve();
-        };
+          console.log("WebSocket connected successfully")
+          this.isConnecting = false
+          this.reconnectAttempts = 0
+          this.emit(WebSocketEventType.CONNECT, null)
+          resolve()
+        }
 
         this.ws.onmessage = (event) => {
           try {
-            const data = event.data;
+            const data = event.data
             try {
-              const message: WebSocketMessage = JSON.parse(data);
-              this.handleMessage(message);
+              const message: WebSocketMessage = JSON.parse(data)
+              this.handleMessage(message)
             } catch {
               // If not valid JSON, emit as raw data without assuming it's a chat message
-              console.warn("Received non-JSON WebSocket message:", data);
+              console.warn("Received non-JSON WebSocket message:", data)
             }
           } catch (error) {
-            console.error("❌ Failed to handle WebSocket message:", error);
+            console.error("❌ Failed to handle WebSocket message:", error)
           }
-        };
+        }
 
         this.ws.onclose = (event) => {
           console.log(
             "🔌 WebSocket connection closed:",
             event.code,
             event.reason
-          );
-          this.isConnecting = false;
+          )
+          this.isConnecting = false
           this.emit(WebSocketEventType.DISCONNECT, {
             code: event.code,
             reason: event.reason,
-          });
+          })
 
           if (!this.isManualClose && event.code !== 1000) {
-            this.attemptReconnect();
+            this.attemptReconnect()
           }
-        };
+        }
 
         this.ws.onerror = (error) => {
-          console.error("❌ WebSocket error:", error);
-          this.isConnecting = false;
-          this.emit(WebSocketEventType.ERROR, error);
-          reject(error);
-        };
+          console.error("❌ WebSocket error:", error)
+          this.isConnecting = false
+          this.emit(WebSocketEventType.ERROR, error)
+          reject(error)
+        }
 
         // Timeout for connection
         setTimeout(() => {
           if (this.isConnecting) {
-            this.isConnecting = false;
-            this.ws?.close();
-            reject(new Error("WebSocket connection timeout"));
+            this.isConnecting = false
+            this.ws?.close()
+            reject(new Error("WebSocket connection timeout"))
           }
-        }, 10000); // 10 seconds timeout
+        }, 10000) // 10 seconds timeout
       } catch (error) {
-        this.isConnecting = false;
-        reject(error);
+        this.isConnecting = false
+        reject(error)
       }
-    });
+    })
   }
 
   public disconnect(): void {
-    this.isManualClose = true;
+    this.isManualClose = true
     if (this.ws) {
-      this.ws.close(1000, "Manual disconnect");
-      this.ws = null;
+      this.ws.close(1000, "Manual disconnect")
+      this.ws = null
     }
   }
 
   public send(type: WebSocketEventType, data: unknown): boolean {
     if (!this.isConnected()) {
-      console.warn("WebSocket not connected. Message not sent.");
-      return false;
+      console.warn("WebSocket not connected. Message not sent.")
+      return false
     }
 
     try {
@@ -172,90 +172,90 @@ export class WebSocketService {
         type,
         data,
         timestamp: new Date().toISOString(),
-      };
+      }
 
-      this.ws!.send(JSON.stringify(message));
-      return true;
+      this.ws!.send(JSON.stringify(message))
+      return true
     } catch (error) {
-      console.error("❌ Failed to send WebSocket message:", error);
-      return false;
+      console.error("❌ Failed to send WebSocket message:", error)
+      return false
     }
   }
 
   public isConnected(): boolean {
-    return this.ws !== null && this.ws.readyState === WebSocket.OPEN;
+    return this.ws !== null && this.ws.readyState === WebSocket.OPEN
   }
 
   public getConnectionState(): number {
-    return this.ws?.readyState ?? WebSocket.CLOSED;
+    return this.ws?.readyState ?? WebSocket.CLOSED
   }
 
   public on(
     eventType: WebSocketEventType,
     handler: WebSocketEventHandler
   ): void {
-    const handlers = this.eventHandlers.get(eventType) || [];
-    handlers.push(handler);
-    this.eventHandlers.set(eventType, handlers);
+    const handlers = this.eventHandlers.get(eventType) || []
+    handlers.push(handler)
+    this.eventHandlers.set(eventType, handlers)
   }
 
   public off(
     eventType: WebSocketEventType,
     handler: WebSocketEventHandler
   ): void {
-    const handlers = this.eventHandlers.get(eventType) || [];
-    const index = handlers.indexOf(handler);
+    const handlers = this.eventHandlers.get(eventType) || []
+    const index = handlers.indexOf(handler)
     if (index > -1) {
-      handlers.splice(index, 1);
+      handlers.splice(index, 1)
     }
   }
 
   private emit(eventType: WebSocketEventType, data: unknown): void {
-    const handlers = this.eventHandlers.get(eventType) || [];
+    const handlers = this.eventHandlers.get(eventType) || []
     handlers.forEach((handler) => {
       try {
-        handler(data);
+        handler(data)
       } catch (error) {
         console.error(
           `❌ Error in WebSocket event handler for ${eventType}:`,
           error
-        );
+        )
       }
-    });
+    })
   }
 
   private handleMessage(message: WebSocketMessage): void {
-    console.log("WebSocket message received:", message);
+    console.log("WebSocket message received:", message)
 
     // Emit the specific event type
-    this.emit(message.type, message.data);
+    this.emit(message.type, message.data)
 
     // Handle specific message types
     switch (message.type) {
       case WebSocketEventType.NOTIFICATION:
-        this.handleNotification(message.data as IWebSocketNotification);
-        break;
+        this.handleNotification(message.data as IWebSocketNotification)
+        break
       case WebSocketEventType.REPORT_UPDATE:
-        this.handleReportUpdate(message.data);
-        break;
+        this.handleReportUpdate(message.data)
+        break
       case WebSocketEventType.USER_UPDATE:
-        this.handleUserUpdate(message.data);
-        break;
+        this.handleUserUpdate(message.data)
+        break
       default:
-        console.log(`Unhandled message type: ${message.type}`);
+        console.log(`Unhandled message type: ${message.type}`)
     }
   }
 
   private handleNotification(notification: IWebSocketNotification): void {
-    this.emit(WebSocketEventType.NOTIFICATION, notification);
+    this.emit(WebSocketEventType.NOTIFICATION, notification)
   }
 
   private handleReportUpdate(data: unknown): void {
-    console.log("Report update received:", data);
+    console.log("Report update received:", data)
   }
 
   private handleUserUpdate(data: unknown): void {
-    console.log("User update received:", data);
+    console.log("User update received:", data)
   }
 
   private attemptReconnect(): void {
@@ -263,26 +263,26 @@ export class WebSocketService {
       this.reconnectAttempts >= this.maxReconnectAttempts ||
       this.isManualClose
     ) {
-      console.error("❌ Max reconnection attempts reached");
-      return;
+      console.error("❌ Max reconnection attempts reached")
+      return
     }
 
-    this.reconnectAttempts++;
+    this.reconnectAttempts++
     console.log(
       `Attempting to reconnect... (${this.reconnectAttempts}/${this.maxReconnectAttempts})`
-    );
+    )
 
     setTimeout(() => {
       this.connect()
         .then(() => {
-          console.log("Reconnected successfully");
-          this.emit(WebSocketEventType.RECONNECT, null);
+          console.log("Reconnected successfully")
+          this.emit(WebSocketEventType.RECONNECT, null)
         })
         .catch((error) => {
-          console.error("❌ Reconnection failed:", error);
-        });
-    }, this.reconnectInterval * this.reconnectAttempts); // Exponential backoff
+          console.error("❌ Reconnection failed:", error)
+        })
+    }, this.reconnectInterval * this.reconnectAttempts) // Exponential backoff
   }
 }
 
-export const webSocketService = WebSocketService.getInstance();
+export const webSocketService = WebSocketService.getInstance()
