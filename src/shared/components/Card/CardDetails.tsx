@@ -1,13 +1,13 @@
-import { classNames } from "primereact/utils"
-import { Card } from "react-bootstrap"
+import { classNames } from "primereact/utils";
+import { Card } from "react-bootstrap";
 
 interface Props {
-  title: React.ReactNode
-  rightTitleContent?: React.ReactNode
-  children?: React.ReactNode
-  className?: string
-  defaultClassName?: boolean
-  fillHeight?: boolean
+  title: React.ReactNode;
+  rightTitleContent?: React.ReactNode;
+  children?: React.ReactNode;
+  className?: string;
+  defaultClassName?: boolean;
+  fillHeight?: boolean;
 }
 
 export const CardDetails = ({
@@ -21,7 +21,7 @@ export const CardDetails = ({
   const customClassName = classNames(
     defaultClassName && "row row-col col-border p-3 gap-2 gap-md-0",
     className
-  )
+  );
   return (
     <Card
       className={classNames("p-0 overflow-hidden", { "h-100": fillHeight })}
@@ -41,5 +41,5 @@ export const CardDetails = ({
         </Card.Body>
       )}
     </Card>
-  )
-}
+  );
+};

@@ -1,5 +1,6 @@
 import { Modal } from "@/shared/components";
 import { useNotification } from "@/shared/context";
+import { useNotificationWebSocket } from "@/shared/hooks/useNotificationWebSocket";
 import type {
   TModal,
   TModalForwardHandles,
@@ -33,8 +34,20 @@ const ReportsTabContext = createContext<IReportContext | undefined>(undefined);
 export function ReportsTabProvider() {
   const { Loading, Toast } = useNotification();
   const { isActivatedTab } = useHome();
+  const { lastNotification } = useNotificationWebSocket();
   const [reports, setReports] = useState<IGetReportResponse[]>([]);
   const modalRef = useRef<TModalForwardHandles>(null);
+
+  useEffect(() => {
+    if (lastNotification) {
+      Toast.show(
+        "info",
+        lastNotification.notification_title || "Notification",
+        lastNotification.notification_description ||
+          "You have a new notification"
+      );
+    }
+  }, [lastNotification, Toast]);
 
   const onShowModal = (params: TModal) => {
     modalRef.current?.show(params);

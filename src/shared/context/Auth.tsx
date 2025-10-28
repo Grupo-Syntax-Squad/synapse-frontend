@@ -8,7 +8,6 @@ import type { IUserAuth } from "@/interfaces/contexts/Auth";
 import {
   createContext,
   useCallback,
-  useContext,
   useEffect,
   useState,
   type ReactNode,
@@ -32,7 +31,7 @@ interface AuthContextProps {
   ) => boolean;
 }
 
-const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IUserAuth | null>(null);
@@ -122,8 +121,4 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useAuth = () => {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within an AuthProvider");
-  return ctx;
-};
+export { useAuth } from "@/shared/hooks/useAuthContext";

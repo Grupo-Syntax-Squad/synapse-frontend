@@ -6,4 +6,5 @@ export * from "./Tabs";
 export * from "./CopyContent";
 export * from "./Button";
 export * from "./Switch";
-export * from "./RequirePermission"
+export * from "./WebSocketStatus";
+export * from "./RequirePermission";

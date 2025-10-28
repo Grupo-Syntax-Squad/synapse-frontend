@@ -64,15 +64,4 @@ export class AuthServices extends BaseService {
     ).data;
     return response.data;
   }
-
-  public static async registerUser(params: {
-    username: string;
-    email: string;
-    password: string;
-  }) {
-    const response: IBasicResponse<null> = (
-      await ServiceSynapse.post(this.endpoint("/register"), params)
-    ).data;
-    return response.data;
-  }
 }
