@@ -3,54 +3,56 @@ import {
   RoleKeys,
   type PermissionsItems,
   type PermissionsTypes,
-} from "@/constants/permissions";
-import type { IUserAuth } from "@/interfaces/contexts/Auth";
+} from "@/constants/permissions"
+import type { IUserAuth } from "@/interfaces/contexts/Auth"
 import {
   createContext,
   useCallback,
   useEffect,
   useState,
   type ReactNode,
-} from "react";
+} from "react"
 
-const API_URL = import.meta.env.VITE_SERVICE_URL;
+const API_URL = import.meta.env.VITE_SERVICE_URL
 
 interface AuthContextProps {
-  user: IUserAuth | null;
-  isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-  loading: boolean;
+  user: IUserAuth | null
+  isAuthenticated: boolean
+  login: (email: string, password: string) => Promise<void>
+  logout: () => Promise<void>
+  loading: boolean
   renderWithPermission: <T extends ReactNode>(
     checkAdmin: boolean,
     ...components: T[]
-  ) => T[];
+  ) => T[]
   verifyUserProfilePermission: (
     item: PermissionsItems,
     types: PermissionsTypes[]
-  ) => boolean;
+  ) => boolean
 }
 
-export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+export const AuthContext = createContext<AuthContextProps | undefined>(
+  undefined
+)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<IUserAuth | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<IUserAuth | null>(null)
+  const [loading, setLoading] = useState(true)
 
   const fetchUser = useCallback(async () => {
     try {
       const res = await fetch(`${API_URL}/users/me`, {
         credentials: "include",
-      });
-      if (!res.ok) throw new Error("not authenticated");
-      const data = await res.json();
-      setUser(data.data);
+      })
+      if (!res.ok) throw new Error("not authenticated")
+      const data = await res.json()
+      setUser(data.data)
     } catch {
-      setUser(null);
+      setUser(null)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
   const login = async (email: string, password: string) => {
     const res = await fetch(`${API_URL}/auth/login`, {
@@ -58,51 +60,51 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ email, password }),
-    });
+    })
 
-    if (!res.ok) throw new Error("Login failed");
-    await fetchUser();
-  };
+    if (!res.ok) throw new Error("Login failed")
+    await fetchUser()
+  }
 
   const logout = async () => {
     try {
       await fetch(`${API_URL}/auth/logout`, {
         method: "POST",
         credentials: "include",
-      });
+      })
     } catch (error) {
-      console.error("Erro ao fazer logout:", error);
+      console.error("Erro ao fazer logout:", error)
     } finally {
-      setUser(null);
+      setUser(null)
     }
-  };
+  }
 
   const renderWithPermission = <T extends ReactNode>(
     checkAdmin: boolean,
     ...components: T[]
   ): T[] => {
-    if (!user) return [];
-    if (checkAdmin && !user.is_admin) return [];
-    return components;
-  };
+    if (!user) return []
+    if (checkAdmin && !user.is_admin) return []
+    return components
+  }
 
   const verifyUserProfilePermission = (
     item: PermissionsItems,
     types: PermissionsTypes[]
   ): boolean => {
-    if (!user) return false;
-    const userRole = user.is_admin ? RoleKeys.ADMIN : RoleKeys.USER;
-    const itemPermissions = permissions[item];
-    if (!itemPermissions) return false;
+    if (!user) return false
+    const userRole = user.is_admin ? RoleKeys.ADMIN : RoleKeys.USER
+    const itemPermissions = permissions[item]
+    if (!itemPermissions) return false
     return types.some((type) => {
-      const allowedRoles = itemPermissions[type as string];
-      return allowedRoles?.includes(userRole);
-    });
-  };
+      const allowedRoles = itemPermissions[type as string]
+      return allowedRoles?.includes(userRole)
+    })
+  }
 
   useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+    fetchUser()
+  }, [fetchUser])
 
   return (
     <AuthContext.Provider
@@ -118,7 +120,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     >
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
-export { useAuth } from "@/shared/hooks/useAuthContext";
+export { useAuth } from "@/shared/hooks/useAuthContext"

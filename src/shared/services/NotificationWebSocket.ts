@@ -84,7 +84,9 @@ export class NotificationWebSocketService {
 
         this.ws.onmessage = (event) => {
           try {
+            /* eslint-disable @typescript-eslint/no-explicit-any */
             let parsedData: any = JSON.parse(event.data)
+            /* eslint-enable @typescript-eslint/no-explicit-any */
             if (typeof parsedData === "string") {
               parsedData = JSON.parse(parsedData)
             }

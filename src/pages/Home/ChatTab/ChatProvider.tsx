@@ -1,65 +1,64 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Card, Button, Form } from "react-bootstrap";
-import ChatService from "@/shared/services/Chat";
+import React, { useEffect, useRef, useState } from "react"
+import { Card, Button, Form } from "react-bootstrap"
+import ChatService from "@/shared/services/Chat"
 import {
   ChatWebSocketService,
   ChatWebSocketEventType,
-} from "@/shared/services/ChatWebSocket";
-import type { IChatMessage } from "@/interfaces/services/Chat";
-import { useAuth } from "@/shared/context";
-import type { IUserAuth } from "@/interfaces/contexts/Auth";
+} from "@/shared/services/ChatWebSocket"
+import type { IChatMessage } from "@/interfaces/services/Chat"
+import { useAuth } from "@/shared/context"
+import type { IUserAuth } from "@/interfaces/contexts/Auth"
 
-type ChatHistoryItem = [string, number, boolean, Date];
+type ChatHistoryItem = [string, number, boolean, Date]
 
 interface IChatObject {
-  type: "chat_message";
-  data: IChatMessage;
-  timestamp: string;
+  type: "chat_message"
+  data: IChatMessage
+  timestamp: string
 }
 
-type ChatMessageResponse = IChatObject;
+type ChatMessageResponse = IChatObject
 
 const ChatProvider: React.FC = () => {
   const { user, logout } = useAuth() as {
-    user?: IUserAuth | null;
-    logout?: () => void;
-  };
-  const [messages, setMessages] = useState<IChatMessage[]>([]);
-  const [input, setInput] = useState("");
-  const [connected, setConnected] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const [isWaitingResponse, setIsWaitingResponse] = useState(false);
-  const chatWSRef = useRef<ChatWebSocketService | null>(null);
+    user?: IUserAuth | null
+    logout?: () => void
+  }
+  const [messages, setMessages] = useState<IChatMessage[]>([])
+  const [input, setInput] = useState("")
+  const [connected, setConnected] = useState(false)
+  const messagesEndRef = useRef<HTMLDivElement | null>(null)
+  const [isWaitingResponse, setIsWaitingResponse] = useState(false)
+  const chatWSRef = useRef<ChatWebSocketService | null>(null)
 
   useEffect(() => {
-    const isLoginPage = window.location.pathname.startsWith("/login");
-    if (!user?.id || isLoginPage) return;
+    const isLoginPage = window.location.pathname.startsWith("/login")
+    if (!user?.id || isLoginPage) return
 
     // Create chat WebSocket instance
-    const chatWS = new ChatWebSocketService();
-    chatWSRef.current = chatWS;
+    const chatWS = new ChatWebSocketService()
+    chatWSRef.current = chatWS
 
     const normalizeItem = (
       item: ChatHistoryItem | string | unknown
     ): IChatMessage | null => {
-      if (!item) return null;
+      if (!item) return null
       if (Array.isArray(item) && item.length >= 4) {
-        const [text, userId, isUserMessage, timestamp] =
-          item as ChatHistoryItem;
+        const [text, userId, isUserMessage, timestamp] = item as ChatHistoryItem
         if (typeof text === "string") {
-          const trimmed = text.trim();
+          const trimmed = text.trim()
           if (trimmed.startsWith("Reply:")) {
-            const jsonPart = trimmed.replace(/^Reply:\s*/i, "");
+            const jsonPart = trimmed.replace(/^Reply:\s*/i, "")
             try {
-              const parsed = JSON.parse(jsonPart) as ChatMessageResponse;
+              const parsed = JSON.parse(jsonPart) as ChatMessageResponse
               if (parsed?.type === "chat_message" && parsed.data) {
                 return {
                   ...parsed.data,
                   user_message: !!parsed.data.user_message,
-                };
+                }
               }
             } catch (error) {
-              console.debug("Failed to parse Reply: JSON", error);
+              console.debug("Failed to parse Reply: JSON", error)
             }
           }
           return {
@@ -72,109 +71,109 @@ const ChatProvider: React.FC = () => {
               timestamp instanceof Date
                 ? timestamp.toISOString()
                 : new Date().toISOString(),
-          };
+          }
         }
       }
       if (typeof item === "string") {
-        const trimmed = item.trim();
+        const trimmed = item.trim()
         if (trimmed.startsWith("Reply:")) {
-          const jsonPart = trimmed.replace(/^Reply:\s*/i, "");
-          try {
-            const parsed = JSON.parse(jsonPart);
-            if (parsed && parsed.type === "chat_message" && parsed.data) {
-              return {
-                ...parsed.data,
-                user_message: !!parsed.data.user_message,
-              } as IChatMessage;
-            }
-          } catch (e) {}
+          const jsonPart = trimmed.replace(/^Reply:\s*/i, "")
+          const parsed = JSON.parse(jsonPart)
+          if (parsed && parsed.type === "chat_message" && parsed.data) {
+            return {
+              ...parsed.data,
+              user_message: !!parsed.data.user_message,
+            } as IChatMessage
+          }
         }
         return {
           message: trimmed,
           user_id: 0,
           user_message: false,
           created_at: new Date().toISOString(),
-        } as IChatMessage;
+        } as IChatMessage
       }
       if (item && typeof item === "object" && !Array.isArray(item)) {
-        const msgItem = item as Record<string, unknown>;
+        const msgItem = item as Record<string, unknown>
         if (
           typeof msgItem.message === "string" &&
           typeof msgItem.user_message !== "undefined"
         ) {
-          return msgItem as unknown as IChatMessage;
+          return msgItem as unknown as IChatMessage
         }
         if (
           msgItem.type === "chat_message" &&
           msgItem.data &&
           typeof msgItem.data === "object"
         ) {
-          return (msgItem as unknown as ChatMessageResponse).data;
+          return (msgItem as unknown as ChatMessageResponse).data
         }
       }
-      return null;
-    };
+      return null
+    }
 
     ChatService.fetchHistory(user.id)
       .then((history) => {
         const normalized = Array.isArray(history)
           ? history
-              .map((it: any) => normalizeItem(it))
+              .map((it: ChatHistoryItem | string | unknown) =>
+                normalizeItem(it)
+              )
               .filter((x: IChatMessage | null): x is IChatMessage => x !== null)
-          : [];
-        setMessages(normalized);
-        return chatWS.connect();
+          : []
+        setMessages(normalized)
+        return chatWS.connect()
       })
       .then(() => {
-        setConnected(true);
+        setConnected(true)
       })
       .catch((error) => {
-        console.error("Failed to initialize chat", error);
-      });
+        console.error("Failed to initialize chat", error)
+      })
 
     const onMessage = (data: unknown) => {
       try {
-        const msg = data as IChatMessage;
-        setMessages((prev) => [...prev, msg]);
-        setIsWaitingResponse(false);
+        const msg = data as IChatMessage
+        setMessages((prev) => [...prev, msg])
+        setIsWaitingResponse(false)
       } catch (error) {
-        console.error("Invalid message format", error);
+        console.error("Invalid message format", error)
       }
-    };
+    }
 
-    const onConnect = () => setConnected(true);
+    const onConnect = () => setConnected(true)
     const onDisconnect = (data: unknown) => {
-      setConnected(false);
+      setConnected(false)
       // If disconnect reason is authentication/cookie failure, log out user
-      const event = data as { code?: number; reason?: string } | undefined;
+      const event = data as { code?: number; reason?: string } | undefined
       if (
         event &&
         event.reason &&
         event.reason.toLowerCase().includes("auth")
       ) {
-        if (typeof logout === "function") logout();
+        if (typeof logout === "function") logout()
       }
-    };
+    }
 
-    chatWS.on(ChatWebSocketEventType.CHAT_MESSAGE, onMessage);
-    chatWS.on(ChatWebSocketEventType.CONNECT, onConnect);
-    chatWS.on(ChatWebSocketEventType.DISCONNECT, onDisconnect);
+    chatWS.on(ChatWebSocketEventType.CHAT_MESSAGE, onMessage)
+    chatWS.on(ChatWebSocketEventType.CONNECT, onConnect)
+    chatWS.on(ChatWebSocketEventType.DISCONNECT, onDisconnect)
 
     return () => {
-      chatWS.off(ChatWebSocketEventType.CHAT_MESSAGE, onMessage);
-      chatWS.off(ChatWebSocketEventType.CONNECT, onConnect);
-      chatWS.off(ChatWebSocketEventType.DISCONNECT, onDisconnect);
-      chatWS.disconnect();
-    };
-  }, [user?.id, logout]);
+      chatWS.off(ChatWebSocketEventType.CHAT_MESSAGE, onMessage)
+      chatWS.off(ChatWebSocketEventType.CONNECT, onConnect)
+      chatWS.off(ChatWebSocketEventType.DISCONNECT, onDisconnect)
+      chatWS.disconnect()
+    }
+  }, [user?.id, logout])
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages])
 
   const handleSend = () => {
     if (!input.trim() || !user?.id || isWaitingResponse || !chatWSRef.current)
-      return;
+      return
 
     try {
       const message = {
@@ -182,18 +181,18 @@ const ChatProvider: React.FC = () => {
         user_id: user.id,
         user_message: true,
         created_at: new Date().toISOString(),
-      };
+      }
 
-      setMessages((prev) => [...prev, message]);
+      setMessages((prev) => [...prev, message])
 
-      chatWSRef.current.send(message);
-      setIsWaitingResponse(true);
-      setInput("");
+      chatWSRef.current.send(message)
+      setIsWaitingResponse(true)
+      setInput("")
     } catch (error) {
-      console.error("Failed to send message", error);
-      setIsWaitingResponse(false);
+      console.error("Failed to send message", error)
+      setIsWaitingResponse(false)
     }
-  };
+  }
 
   return (
     <Card className="shadow-sm">
@@ -247,8 +246,8 @@ const ChatProvider: React.FC = () => {
 
         <Form
           onSubmit={(e) => {
-            e.preventDefault();
-            handleSend();
+            e.preventDefault()
+            handleSend()
           }}
           className="d-flex gap-2 align-items-end"
         >
@@ -259,8 +258,8 @@ const ChatProvider: React.FC = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleSend();
+                e.preventDefault()
+                handleSend()
               }
             }}
             placeholder={
@@ -275,7 +274,7 @@ const ChatProvider: React.FC = () => {
         </Form>
       </Card.Body>
     </Card>
-  );
-};
+  )
+}
 
-export default ChatProvider;
+export default ChatProvider

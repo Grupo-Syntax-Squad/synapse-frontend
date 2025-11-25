@@ -1,21 +1,28 @@
-import { Modal } from "@/shared/components"
-import { useAuth, useNotification } from "@/shared/context"
 import type {
   TModal,
   TModalForwardHandles,
 } from "@/interfaces/components/Modal"
 import {
-  type IGetUserResponse,
   type IFilterGetUsers,
+  type IGetUserResponse,
   UserUpdateFields,
 } from "@/interfaces/services/Users"
-import { UserServices } from "@/shared/services/User"
-import { createContext, useContext, useEffect, useRef, useState } from "react"
-import { HomeTabKeys, useHome } from ".."
-import { UsersDataTable } from "./UsersDataTable"
-import { UpdateUserForm } from "./UpdateUserForm"
-import { Card, CardBody } from "react-bootstrap"
+import { Modal } from "@/shared/components"
 import { CardDetails } from "@/shared/components/Card/CardDetails"
+import { useAuth, useNotification } from "@/shared/context"
+import { UserServices } from "@/shared/services/User"
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from "react"
+import { Card, CardBody } from "react-bootstrap"
+import { HomeTabKeys, useHome } from ".."
+import { UpdateUserForm } from "./UpdateUserForm"
+import { UsersDataTable } from "./UsersDataTable"
 
 interface IUserContext {
   users: IGetUserResponse[]
@@ -38,21 +45,28 @@ export function UsersTabProvider() {
   const onShowModal = (params: TModal) => modalRef.current?.show(params)
   const onHideModal = () => modalRef.current?.hide()
 
-  const getUsers = async (params?: Partial<IFilterGetUsers>) => {
-    try {
-      if (authUser?.is_admin) {
-        Loading.show("Searching for users...")
-        const response = await UserServices.getUsers(params)
-        setUsers(response)
-      } else if (authUser) {
-        setUsers([authUser as IGetUserResponse])
+  const getUsers = useCallback(
+    async (params?: Partial<IFilterGetUsers>) => {
+      try {
+        if (authUser?.is_admin) {
+          Loading.show("Searching for users...")
+          const response = await UserServices.getUsers(params)
+          setUsers(response)
+        } else if (authUser) {
+          setUsers([authUser as IGetUserResponse])
+        }
+      } catch {
+        Toast.show(
+          "error",
+          "Erro",
+          "Falha ao buscar usuários. Tente novamente."
+        )
+      } finally {
+        Loading.hide()
       }
-    } catch {
-      Toast.show("error", "Erro", "Falha ao buscar usuários. Tente novamente.")
-    } finally {
-      Loading.hide()
-    }
-  }
+    },
+    [authUser, Loading, Toast]
+  )
 
   const onUseQueryParamsToSearch = async (
     params?: Partial<IFilterGetUsers>
@@ -115,7 +129,7 @@ export function UsersTabProvider() {
     if (isActivatedTab[HomeTabKeys.USERS]) {
       getUsers()
     }
-  }, [isActivatedTab[HomeTabKeys.USERS], authUser])
+  }, [isActivatedTab, authUser, getUsers])
 
   const value: IUserContext = {
     users,
