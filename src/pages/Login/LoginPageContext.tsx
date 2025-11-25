@@ -8,10 +8,14 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { ParamsConstantsKeys } from "@/interfaces/constants/routes";
 import { useAuth } from "@/shared/context";
-import { Login } from ".";
+import { AuthServices } from "@/shared/services/Auth";
+import SignIn from "./SignIn";
+import ForgotPassword from "./ForgotPassword";
+import Register from "./Register";
+import ForcePasswordChange from "./ForcePasswordChange";
 
 interface Props {
   currentPage: LoginPage;
@@ -41,7 +45,8 @@ export const LoginPageProvider = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
 
   const [searchParams] = useSearchParams();
-  const { login } = useAuth();
+  const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
 
   useEffect(() => {
     const defaultEmail = searchParams.get(ParamsConstantsKeys.CHANGE_PASSWORD);
@@ -49,6 +54,13 @@ export const LoginPageProvider = () => {
       setCurrentPage(LoginPage.RESET_PASSWORD);
     }
   }, [searchParams]);
+
+  // Redirect to home after successful login
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleEmailChange = (event: THandleSetFieldProps) => {
     setEmail(event.target.value);
@@ -63,10 +75,23 @@ export const LoginPageProvider = () => {
     return true;
   };
 
-  const onChangeToResetPassword = () => {
-    setEmail("");
-    setEmailError("");
-    setCurrentPage(LoginPage.RESET_PASSWORD);
+  const onChangeToResetPassword = async () => {
+    if (!verifyEmail()) return;
+    setIsLoading(true);
+    try {
+      await AuthServices.requestPasswordReset(email);
+      setCurrentPage(LoginPage.RESET_PASSWORD);
+    } catch (error) {
+      const detail = (error as { response?: { data?: { detail?: unknown } } })
+        .response?.data?.detail;
+      const message =
+        typeof detail === "string"
+          ? detail
+          : "Failed to send reset code. Please try again.";
+      setLoginError(message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleLogin = async () => {
@@ -98,9 +123,27 @@ export const LoginPageProvider = () => {
     loginError,
   };
 
+  const renderCurrentPage = () => {
+    // Debug: log page transitions to help diagnose flicker/unmount issues
+    // (Open browser console to see these messages)
+    // eslint-disable-next-line no-console
+    console.log("LoginPageProvider - currentPage:", currentPage);
+    
+    if (currentPage === LoginPage.FORGOT_PASSWORD) {
+      return <ForgotPassword />;
+    }
+    if (currentPage === LoginPage.REGISTER) {
+      return <Register />;
+    }
+    if (currentPage === LoginPage.FORCE_PASSWORD_CHANGE) {
+      return <ForcePasswordChange />;
+    }
+    return <SignIn />;
+  };
+
   return (
     <LoginPageContext.Provider value={values}>
-      <Login />
+      {renderCurrentPage()}
     </LoginPageContext.Provider>
   );
 };

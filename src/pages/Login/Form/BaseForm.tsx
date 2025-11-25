@@ -7,10 +7,15 @@ interface Prop {
 }
 
 export default function BaseForm({ children, onKeyDown, className }: Prop) {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
   return (
     <Form
       className={`d-flex flex-column gap-3 ${className}`}
       noValidate
+      onSubmit={handleSubmit}
       onKeyDown={onKeyDown || (() => {})}
     >
       {children}

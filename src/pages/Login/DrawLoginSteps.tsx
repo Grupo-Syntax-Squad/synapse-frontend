@@ -4,6 +4,7 @@ import SignIn from "./SignIn";
 import { LoginPage } from "@/interfaces/pages/Login";
 import { useLoginPage } from "./LoginPageContext";
 import Register from "./Register";
+import ForgotPassword from "./ForgotPassword";
 
 export default function DrawLoginSteps() {
   const { currentPage } = useLoginPage();
@@ -15,6 +16,8 @@ export default function DrawLoginSteps() {
     return <ResetPassword />;
   } else if (currentPage === LoginPage.FORCE_PASSWORD_CHANGE) {
     return <ForcePasswordChange />;
+  } else if (currentPage === LoginPage.FORGOT_PASSWORD) {
+    return <ForgotPassword />;
   } else {
     return <div />;
   }
