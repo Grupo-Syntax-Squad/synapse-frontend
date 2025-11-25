@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import logo from "@/assets/logo.png";
 import BaseForm from "./Form/BaseForm";
 import PrimaryLoginButton from "./Form/PrimaryLoginButton";
-// import SecondaryLoginButton from "./Form/SecondaryLoginButton";
+import SecondaryLoginButton from "./Form/SecondaryLoginButton";
 import PasswordField from "./Form/PasswordField";
 import { LoginPage } from "@/interfaces/pages/Login";
 import { useLoginPage } from "./LoginPageContext";
@@ -36,11 +36,6 @@ export default function SignIn() {
     }
   }
 
-  // const onChangeToResetPassword = () => {
-  //   handleEmailChange({ target: { value: "", name: "email" } });
-  //   setCurrentPage(LoginPage.RESET_PASSWORD);
-  // };
-
   return (
     <Row className="g-0 min-vh-100 vw-100 m-0">
       <Col
@@ -72,7 +67,13 @@ export default function SignIn() {
                 submitCallback={handleLogin}
                 disabled={isLoading}
               />
-              {/* <SecondaryLoginButton onClick={onChangeToResetPassword} /> */}
+              <SecondaryLoginButton
+                onClick={() => {
+                  // Usando o estado enumerado como string para garantir a comparação correta
+                  setCurrentPage(LoginPage.FORGOT_PASSWORD);
+                }}
+                disabled={isLoading}
+              />
             </div>
           </BaseForm>
           <p className="text-center mt-4 small">

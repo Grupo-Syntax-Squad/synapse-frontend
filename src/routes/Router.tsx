@@ -5,13 +5,7 @@ import { OutletRoute } from "@/shared/components/OutletRoute";
 import { HomeRoute } from "./Home";
 import { route } from "@/utils/Format/Route";
 import { RouteMapKeys, routeMap } from "@/constants/routes";
-const LoginProvider = lazy(() =>
-  import("@/pages/Login/LoginPageContext").then((module) => ({
-    default: module.LoginPageProvider as React.ComponentType<
-      Record<string, unknown>
-    >,
-  }))
-);
+const LoginProvider = lazy(() => import("@/pages/Login"));
 
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const ErrorBoundary = lazy(

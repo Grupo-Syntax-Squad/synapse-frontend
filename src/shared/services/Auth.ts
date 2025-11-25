@@ -49,8 +49,12 @@ export class AuthServices extends BaseService {
   }) {
     const response: IBasicResponse<null> = (
       await ServiceSynapse.post(
-        this.endpoint("/confirm-password-reset"),
-        params
+        this.endpoint("/reset/password"), 
+        {
+            email: params.email,
+            code: params.confirmationCode,
+            new_password: params.newPassword
+        }
       )
     ).data;
     return response.data;
@@ -58,9 +62,12 @@ export class AuthServices extends BaseService {
 
   public static async requestPasswordReset(email: string) {
     const response: IBasicResponse<null> = (
-      await ServiceSynapse.post(this.endpoint("/send-password-reset-code"), {
-        email,
-      })
+      await ServiceSynapse.post(
+        this.endpoint("/forgot/password"),
+        {
+          email: email,
+        }
+      )
     ).data;
     return response.data;
   }
